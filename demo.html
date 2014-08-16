@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>stream.js</title>
+  </head>
+
+  <body>
+    <script src="stream.js"></script>
+    <script>
+      var a = new Stream.EventStream();
+      var b = new Stream.EventStream();
+      var c = a.merge(b);
+      c.subscribe(function(value) {
+        console.log(value);
+      });
+      b.publish('b');
+      a.publish('a');
+    </script>
+  </body>
+</html>
