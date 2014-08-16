@@ -34,6 +34,17 @@
       return mergedEventStream;
     };
 
+    // Create a new EventStream as an accumulator from given seed and callback.
+    constructor.prototype.scan = function(seed, accumulator) {
+      var eventStream = new Stream.EventStream();
+      var currentValue = seed;
+      this.subscribe(function(event) {
+        currentValue = accumulator(currentValue, event);
+        eventStream.publish(currentValue);
+      });
+      return eventStream;
+    };
+
     return constructor;
   })();
 

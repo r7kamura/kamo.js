@@ -16,6 +16,16 @@
       });
       b.publish('b');
       a.publish('a');
+
+      var d = new Stream.EventStream();
+      d.scan(0, function(currentValue, newValue) {
+        return currentValue + newValue;
+      }).subscribe(function(value) {
+        console.log(value);
+      });
+      d.publish(1);
+      d.publish(2);
+      d.publish(3);
     </script>
   </body>
 </html>
