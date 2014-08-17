@@ -26,6 +26,16 @@
       d.publish(1);
       d.publish(2);
       d.publish(3);
+
+      var e = new Stream.EventStream();
+      e.filter(function(value) {
+        return value >= 0;
+      }).subscribe(function(value) {
+        console.log(value);
+      });
+      e.publish(1);
+      e.publish(-2);
+      e.publish(3);
     </script>
   </body>
 </html>

@@ -45,6 +45,17 @@
       return eventStream;
     };
 
+    // filter must be a Function.
+    constructor.prototype.filter = function(filter) {
+      var filteredEventStream = new Stream.EventStream();
+      this.subscribe(function(value) {
+        if (filter(value)) {
+          filteredEventStream.publish(value);
+        }
+      });
+      return filteredEventStream;
+    };
+
     return constructor;
   })();
 
