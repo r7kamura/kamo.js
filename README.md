@@ -11,15 +11,16 @@ A library to control event streams on Functional Reactive Programming model.
 ```
 
 ## API
-* kamo.Stream
- * #merge
- * #scan
- * #filter
- * #map
- * #combine
- * #sampledBy
- * #flatMap
- * #flatMapLatest
+* [kamo.Stream](https://github.com/r7kamura/kamo.js#new-kamostream)
+ * [#merge](https://github.com/r7kamura/kamo.js#mergestream---stream)
+ * [#scan](https://github.com/r7kamura/kamo.js#scanany-functionany-any---any---stream)
+ * [#filter](https://github.com/r7kamura/kamo.js#filterfunctionany---boolean---stream)
+ * [#map](https://github.com/r7kamura/kamo.js#mapfunctionany---any---stream)
+ * [#combine](https://github.com/r7kamura/kamo.js#combinestream-functionany-any---any---stream)
+ * [#sampledBy](https://github.com/r7kamura/kamo.js#sampledbystream-functionany-any---any---stream)
+ * [#flatMap](https://github.com/r7kamura/kamo.js#flatmapfunctionany---stream---stream)
+ * [#flatMapLatest](https://github.com/r7kamura/kamo.js#flatmaplatestfunctionany---stream---stream)
+ * [.fromEventHandler](https://github.com/r7kamura/kamo.js#fromeventhandlerobject-string---stream)
 
 ### new kamo.Stream()
 kamo.Stream is a class for composable mediator, basically for Pub/Sub messaging model.
