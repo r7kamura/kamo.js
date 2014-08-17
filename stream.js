@@ -8,14 +8,14 @@
       this.subscriptions = [];
     };
 
-    // Invoke all registered subscriptions with passing given event.
+    // Invoke all registered subscriptions with passing given value.
     constructor.prototype.publish = function(value) {
       for (var i = 0, length = this.subscriptions.length; i < length; i++) {
         this.subscriptions[i](value);
       }
     };
 
-    // Register a given callback function that will be called on each publish event.
+    // Register a given callback function that will be called on each publish value.
     // subscription must be a Function.
     constructor.prototype.subscribe = function(subscription) {
       this.subscriptions.push(subscription);
