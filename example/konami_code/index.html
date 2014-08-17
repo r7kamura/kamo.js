@@ -25,10 +25,7 @@
       var stream = new kamo.Stream();
       stream.scan([], function(values, value) {
         values.push(value);
-        if (values.length > codes.length) {
-          values.shift();
-        }
-        return values;
+        return values.slice(-codes.length);
       }).filter(function(value) {
         for(var i = 0, length = codes.length; i < length; i++) {
           if (value[i] != codes[i]) {
