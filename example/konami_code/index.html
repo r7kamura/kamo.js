@@ -22,24 +22,16 @@
         65  // a
       ];
 
-      var stream = new kamo.Stream();
-      stream.scan([], function(values, value) {
+      kamo.Stream.fromEventHandler(window, 'onkeyup').map(function(value) {
+        return value.keyCode;
+      }).scan([], function(values, value) {
         values.push(value);
         return values.slice(-codes.length);
       }).filter(function(value) {
-        for(var i = 0, length = codes.length; i < length; i++) {
-          if (value[i] != codes[i]) {
-            return false;
-          }
-        }
-        return true;
+        return JSON.stringify(value) == JSON.stringify(codes);
       }).subscribe(function(value) {
         alert('Conguraturation!');
       });
-
-      window.onkeyup = function(event) {
-        stream.publish(event.keyCode);
-      };
     })();
   </script>
 </body>

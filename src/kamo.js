@@ -8,14 +8,23 @@
       this.subscriptions = [];
     };
 
-    // Invoke all registered subscriptions with passing given value.
+    // Sets an event handler to given object and creates a new Stream from this handler.
+    constructor.fromEventHandler = function(object, propertyName) {
+      var stream = new kamo.Stream();
+      object[propertyName] = function(event) {
+        stream.publish(event);
+      };
+      return stream;
+    };
+
+    // Invokes all registered subscriptions with passing given value.
     constructor.prototype.publish = function(value) {
       for (var i = 0, length = this.subscriptions.length; i < length; i++) {
         this.subscriptions[i](value);
       }
     };
 
-    // Register a given callback function that will be called on each publish value.
+    // Registers a given callback function that will be called on each publish value.
     // subscription must be a Function.
     constructor.prototype.subscribe = function(subscription) {
       this.subscriptions.push(subscription);
