@@ -111,6 +111,18 @@
       return sampledEventStream;
     };
 
+    // Create a new EventStream for each value in the soruce stream, using the given map.
+    // The events from all created stream are merged into the result stream.
+    constructor.prototype.flatMap = function(map) {
+      var mappedEventStream = new Stream.EventStream();
+      this.subscribe(function(value) {
+        map(value).subscribe(function(valueOnEachEventStream) {
+          mappedEventStream.publish(valueOnEachEventStream);
+        });
+      });
+      return mappedEventStream;
+    };
+
     return constructor;
   })();
 
