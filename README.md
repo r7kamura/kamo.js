@@ -1,6 +1,8 @@
 # kamo.js
 A library to control event streams on Functional Reactive Programming model.
 
+![](image/kamo.jpg)
+
 ## Examples
 kamo.js provides `kamo.Stream` class object for pub-sub event model.
 
