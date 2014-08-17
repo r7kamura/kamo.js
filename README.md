@@ -285,3 +285,19 @@ a.publish(2);
 4
 6
 ```
+
+### .fromEventHandler(Object, String) -> Stream
+Sets an event handler to given object and creates a new Stream from this handler.
+
+```js
+kamo.Stream.fromEventHandler(window, 'onkeyup').subscribe(function(event) {
+  console.log(event.keyCode);
+});
+```
+
+```
+40
+40
+38
+38
+```
