@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+  <title>konami code</title>
+</head>
+
+<body>
+  <script src="../../src/kamo.js"></script>
+  <script>
+    (function() {
+      var codes = [
+        38, // up
+        38, // up
+        40, // down
+        40, // down
+        37, // left
+        39, // right
+        37, // left
+        39, // right
+        66, // b
+        65  // a
+      ];
+
+      var stream = new kamo.Stream();
+      stream.scan([], function(values, value) {
+        values.push(value);
+        if (values.length > codes.length) {
+          values.shift();
+        }
+        return values;
+      }).filter(function(value) {
+        for(var i = 0, length = codes.length; i < length; i++) {
+          if (value[i] != codes[i]) {
+            return false;
+          }
+        }
+        return true;
+      }).subscribe(function(value) {
+        alert('Conguraturation!');
+      });
+
+      window.onkeyup = function(event) {
+        stream.publish(event.keyCode);
+      };
+    })();
+  </script>
+</body>
