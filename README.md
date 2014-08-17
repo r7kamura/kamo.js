@@ -24,8 +24,7 @@ stream.publish(3);
 ```js
 var a = new Stream.EventStream();
 var b = new Stream.EventStream();
-var mergedStream = a.merge(b);
-mergedStream.subscribe(function(value) {
+a.merge(b).subscribe(function(value) {
   console.log(value);
 });
 a.publish('a');
