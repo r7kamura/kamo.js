@@ -2,7 +2,7 @@
 A library to control event streams.
 
 ## Examples
-stream.js provides `window.Stream.EventStream` class object.
+stream.js provides `window.Stream.EventStream` class object for pub-sub event model.
 
 ```js
 var stream = new Stream.EventStream();
