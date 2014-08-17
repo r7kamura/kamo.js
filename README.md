@@ -1,8 +1,8 @@
-# stream.js
-A library to control event streams.
+# kamo.js
+A library to control event streams on Functional Reactive Programming model.
 
 ## Examples
-stream.js provides `window.Stream.EventStream` class object for pub-sub event model.
+kamo.js provides `kamo.EventStream` class object for pub-sub event model.
 
 ```js
 var stream = new Stream.EventStream();
