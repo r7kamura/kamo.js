@@ -89,3 +89,24 @@ stream.publish(2);
 2
 4
 ```
+
+### combine
+```js
+var a = new Stream.EventStream();
+var b = new Stream.EventStream();
+a.combine(b, function(aValue, bValue) {
+  return aValue + bValue;
+}).subscribe(function(value) {
+  console.log(value);
+});
+a.publish(1);
+b.publish(2);
+a.publish(3);
+b.publish(4);
+```
+
+```
+3
+5
+7
+```
