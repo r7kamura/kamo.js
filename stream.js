@@ -21,8 +21,7 @@
       this.subscriptions.push(subscription);
     };
 
-    // Create a new EventStream by merging 2 EventStream.
-    // anotherEventStream must be a Stream.EventStream.
+    // Creates a new EventStream by merging 2 EventStream.
     constructor.prototype.merge = function(anotherEventStream) {
       var mergedEventStream = new Stream.EventStream();
       this.subscribe(function(value) {
@@ -34,7 +33,7 @@
       return mergedEventStream;
     };
 
-    // Create a new EventStream as an accumulator from given seed and callback.
+    // Creates a new EventStream as an accumulator from given seed and function.
     constructor.prototype.scan = function(seed, accumulator) {
       var accumulatorEventStream = new Stream.EventStream();
       var currentValue = seed;
@@ -45,7 +44,7 @@
       return accumulatorEventStream;
     };
 
-    // filter must be a Function.
+    // Creates a new EventStream that filters values by given function.
     constructor.prototype.filter = function(filter) {
       var filteredEventStream = new Stream.EventStream();
       this.subscribe(function(value) {
@@ -56,8 +55,7 @@
       return filteredEventStream;
     };
 
-    // Create a new EventStream that publishes applicaiton results of given map function.
-    // map must be a Function.
+    // Creates a new EventStream that publishes applicaiton results of given function.
     constructor.prototype.map = function(map) {
       var mapEventStream = new Stream.EventStream();
       this.subscribe(function(value) {
@@ -66,9 +64,7 @@
       return mapEventStream;
     };
 
-    // Combines the latest values of 2 EventStreams.
-    // anotherEventStream must be a EventStream.
-    // combiner must be a Function that takes 2 arguments.
+    // Creates a new EventStream that publishes the combination of the latest values.
     constructor.prototype.combine = function(anotherEventStream, combiner) {
       var combinedEventStream = new Stream.EventStream();
       var latestValueOfThis;
@@ -92,9 +88,7 @@
       return combinedEventStream;
     };
 
-    // Like combine, but only outputs a new value on a new value to the anotherEventStream.
-    // anotherEventStream must be a EventStream.
-    // combiner must be a Function that takes 2 arguments.
+    // Like `combine`, but only publishes values when any values are published from given EventStream.
     constructor.prototype.sampledBy = function(anotherEventStream, combiner) {
       var sampledEventStream = new Stream.EventStream();
       var latestValueOfThis;
@@ -111,7 +105,7 @@
       return sampledEventStream;
     };
 
-    // Create a new EventStream for each value in the soruce stream, using the given map.
+    // Creates a new EventStream for each value in the soruce stream, using the given map.
     // The events from all created stream are merged into the result stream.
     constructor.prototype.flatMap = function(streamCreator) {
       var flattenEventStream = new Stream.EventStream();

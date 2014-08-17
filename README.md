@@ -20,7 +20,9 @@ stream.publish(3);
 3
 ```
 
-### merge
+### merge(stream)
+Creates a new EventStream by merging 2 EventStream.
+
 ```
 a          : --1----->
                |
@@ -44,7 +46,9 @@ b.publish(2);
 2
 ```
 
-### scan
+### scan(seed, f)
+Creates a new EventStream as an accumulator from given seed and function.
+
 ```
 a               : --1--2--3-->
                     |  |  |
@@ -69,7 +73,9 @@ a.publish(3);
 6
 ```
 
-### filter
+### filter(f)
+Creates a new EventStream that filters values by given function.
+
 ```
 a           : --1--2--3-->
                 |     |
@@ -93,7 +99,9 @@ a.publish(3);
 3
 ```
 
-### map
+### map(f)
+Creates a new EventStream that publishes applicaiton results of given function.
+
 ```
 a        : --1--2--3-->
              |  |  |
@@ -118,7 +126,9 @@ a.publish(3);
 6
 ```
 
-### combine
+### combine(stream, f)
+Creates a new EventStream that publishes the combination of the latest values.
+
 ```
 a               : --1-----3----->
                     |     |
@@ -147,7 +157,9 @@ b.publish(4);
 7
 ```
 
-### sampledBy
+### sampledBy(stream, f)
+Like `combine`, but only publishes values when any values are published from given EventStream.
+
 ```
 a                 : --1-----3----->
                       |     |
@@ -175,7 +187,10 @@ b.publish(4);
 7
 ```
 
-### flatMap
+### flatMap(f)
+Creates a new EventStream for each value in the soruce stream, using the given map.
+The events from all created stream are merged into the result stream.
+
 ```
 a            : --1---2--------------->
                  |   |
@@ -212,7 +227,11 @@ a.publish(2);
 6
 ```
 
-### flatMapLatest
+### flatMapLatest(f)
+Like `flatMap`, creates new streams for each source event.
+Instead of merging all created streams, it switches between them so that
+when a new stream is created, the earlier-created stream is no longer listened to.
+
 ```
 a            : --1---2--------------->
                  |   |
