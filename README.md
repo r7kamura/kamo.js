@@ -233,13 +233,13 @@ Instead of merging all created streams, it switches between them so that
 when a new stream is created, the earlier-created stream is no longer listened to.
 
 ```
-a            : --1---2--------------->
-                 |   |
-               f(1)------2--3-------->
-                     |
-                   f(2)--------4--6-->
-                               |  |
-a.flatMap(f) : ----------------4--6-->
+a                  : --1---2--------------->
+                       |   |
+                     f(1)------2--3-------->
+                           |
+                         f(2)--------4--6-->
+                                     |  |
+a.flatMapLatest(f) : ----------------4--6-->
 ```
 
 ```js
