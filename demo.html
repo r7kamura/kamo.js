@@ -8,8 +8,8 @@
   <body>
     <script src="stream.js"></script>
     <script>
-      var a = new Stream.EventStream();
-      var b = new Stream.EventStream();
+      var a = new Stream.Stream();
+      var b = new Stream.Stream();
       var c = a.merge(b);
       c.subscribe(function(value) {
         console.log(value);
@@ -17,7 +17,7 @@
       b.publish('b');
       a.publish('a');
 
-      var d = new Stream.EventStream();
+      var d = new Stream.Stream();
       d.scan(0, function(currentValue, newValue) {
         return currentValue + newValue;
       }).subscribe(function(value) {
@@ -27,7 +27,7 @@
       d.publish(2);
       d.publish(3);
 
-      var e = new Stream.EventStream();
+      var e = new Stream.Stream();
       e.filter(function(value) {
         return value >= 0;
       }).subscribe(function(value) {
@@ -37,7 +37,7 @@
       e.publish(-2);
       e.publish(3);
 
-      var f = new Stream.EventStream();
+      var f = new Stream.Stream();
       f.map(function(value) {
         return value * 2;
       }).subscribe(function(value) {
@@ -46,8 +46,8 @@
       f.publish(1);
       f.publish(2);
 
-      var g = new Stream.EventStream();
-      var h = new Stream.EventStream();
+      var g = new Stream.Stream();
+      var h = new Stream.Stream();
       g.combine(h, function(gValue, hValue) {
         return gValue + hValue;
       }).subscribe(function(value) {
@@ -58,8 +58,8 @@
       g.publish(3);
       h.publish(4);
 
-      var i = new Stream.EventStream();
-      var j = new Stream.EventStream();
+      var i = new Stream.Stream();
+      var j = new Stream.Stream();
       i.sampledBy(j, function(iValue, jValue) {
         return iValue + jValue;
       }).subscribe(function(value) {
@@ -70,34 +70,34 @@
       i.publish(3);
       j.publish(4);
 
-      var k = new Stream.EventStream();
+      var k = new Stream.Stream();
       k.flatMap(function(value) {
-        var eachEventStream = new Stream.EventStream();
+        var eachStream = new Stream.Stream();
         window.setTimeout(
           function() {
-            eachEventStream.publish(value * 2);
-            eachEventStream.publish(value * 3);
+            eachStream.publish(value * 2);
+            eachStream.publish(value * 3);
           },
           1000
         );
-        return eachEventStream;
+        return eachStream;
       }).subscribe(function(value) {
         console.log(value);
       });
       k.publish(1);
       k.publish(2);
 
-      var l = new Stream.EventStream();
+      var l = new Stream.Stream();
       l.flatMapLatest(function(value) {
-        var eachEventStream = new Stream.EventStream();
+        var eachStream = new Stream.Stream();
         window.setTimeout(
           function() {
-            eachEventStream.publish(value * 2);
-            eachEventStream.publish(value * 3);
+            eachStream.publish(value * 2);
+            eachStream.publish(value * 3);
           },
           1000
         );
-        return eachEventStream;
+        return eachStream;
       }).subscribe(function(value) {
         console.log(value);
       });

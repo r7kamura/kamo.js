@@ -2,8 +2,8 @@
   // Stream is used as a namespace of this library.
   var Stream = {};
 
-  // EventStream is a class object that represents an event stream.
-  Stream.EventStream = (function () {
+  // Stream is a class object that represents an event stream.
+  Stream.Stream = (function () {
     var constructor = function() {
       this.subscriptions = [];
     };
@@ -21,52 +21,52 @@
       this.subscriptions.push(subscription);
     };
 
-    // Creates a new EventStream by merging 2 EventStream.
-    constructor.prototype.merge = function(anotherEventStream) {
-      var mergedEventStream = new Stream.EventStream();
+    // Creates a new Stream by merging 2 Stream.
+    constructor.prototype.merge = function(anotherStream) {
+      var mergedStream = new Stream.Stream();
       this.subscribe(function(value) {
-        mergedEventStream.publish(value);
+        mergedStream.publish(value);
       });
-      anotherEventStream.subscribe(function(value) {
-        mergedEventStream.publish(value);
+      anotherStream.subscribe(function(value) {
+        mergedStream.publish(value);
       });
-      return mergedEventStream;
+      return mergedStream;
     };
 
-    // Creates a new EventStream as an accumulator from given seed and function.
+    // Creates a new Stream as an accumulator from given seed and function.
     constructor.prototype.scan = function(seed, accumulator) {
-      var accumulatorEventStream = new Stream.EventStream();
+      var accumulatorStream = new Stream.Stream();
       var currentValue = seed;
       this.subscribe(function(value) {
         currentValue = accumulator(currentValue, value);
-        accumulatorEventStream.publish(currentValue);
+        accumulatorStream.publish(currentValue);
       });
-      return accumulatorEventStream;
+      return accumulatorStream;
     };
 
-    // Creates a new EventStream that filters values by given function.
+    // Creates a new Stream that filters values by given function.
     constructor.prototype.filter = function(filter) {
-      var filteredEventStream = new Stream.EventStream();
+      var filteredStream = new Stream.Stream();
       this.subscribe(function(value) {
         if (filter(value)) {
-          filteredEventStream.publish(value);
+          filteredStream.publish(value);
         }
       });
-      return filteredEventStream;
+      return filteredStream;
     };
 
-    // Creates a new EventStream that publishes applicaiton results of given function.
+    // Creates a new Stream that publishes applicaiton results of given function.
     constructor.prototype.map = function(map) {
-      var mapEventStream = new Stream.EventStream();
+      var mapStream = new Stream.Stream();
       this.subscribe(function(value) {
-        mapEventStream.publish(map(value));
+        mapStream.publish(map(value));
       });
-      return mapEventStream;
+      return mapStream;
     };
 
-    // Creates a new EventStream that publishes the combination of the latest values.
-    constructor.prototype.combine = function(anotherEventStream, combiner) {
-      var combinedEventStream = new Stream.EventStream();
+    // Creates a new Stream that publishes the combination of the latest values.
+    constructor.prototype.combine = function(anotherStream, combiner) {
+      var combinedStream = new Stream.Stream();
       var latestValueOfThis;
       var latestValueOfAnother;
       var hasAnyValueOfThis = false;
@@ -75,64 +75,64 @@
         latestValueOfThis = value;
         hasAnyValueOfThis = true;
         if (hasAnyValueOfAnother) {
-          combinedEventStream.publish(combiner(latestValueOfThis, latestValueOfAnother));
+          combinedStream.publish(combiner(latestValueOfThis, latestValueOfAnother));
         }
       });
-      anotherEventStream.subscribe(function(value) {
+      anotherStream.subscribe(function(value) {
         latestValueOfAnother = value;
         hasAnyValueOfAnother = true;
         if (hasAnyValueOfThis) {
-          combinedEventStream.publish(combiner(latestValueOfThis, latestValueOfAnother));
+          combinedStream.publish(combiner(latestValueOfThis, latestValueOfAnother));
         }
       });
-      return combinedEventStream;
+      return combinedStream;
     };
 
-    // Like `combine`, but only publishes values when any values are published from given EventStream.
-    constructor.prototype.sampledBy = function(anotherEventStream, combiner) {
-      var sampledEventStream = new Stream.EventStream();
+    // Like `combine`, but only publishes values when any values are published from given Stream.
+    constructor.prototype.sampledBy = function(anotherStream, combiner) {
+      var sampledStream = new Stream.Stream();
       var latestValueOfThis;
       var hasAnyValueOfThis = false;
       this.subscribe(function(value) {
         latestValueOfThis = value;
         hasAnyValueOfThis = true;
       });
-      anotherEventStream.subscribe(function(value) {
+      anotherStream.subscribe(function(value) {
         if (hasAnyValueOfThis) {
-          sampledEventStream.publish(combiner(latestValueOfThis, value));
+          sampledStream.publish(combiner(latestValueOfThis, value));
         }
       });
-      return sampledEventStream;
+      return sampledStream;
     };
 
-    // Creates a new EventStream for each value in the soruce stream, using the given map.
+    // Creates a new Stream for each value in the soruce stream, using the given map.
     // The events from all created stream are merged into the result stream.
     constructor.prototype.flatMap = function(streamCreator) {
-      var flattenEventStream = new Stream.EventStream();
+      var flattenStream = new Stream.Stream();
       this.subscribe(function(value) {
-        streamCreator(value).subscribe(function(valueOnEachEventStream) {
-          flattenEventStream.publish(valueOnEachEventStream);
+        streamCreator(value).subscribe(function(valueOnEachStream) {
+          flattenStream.publish(valueOnEachStream);
         });
       });
-      return flattenEventStream;
+      return flattenStream;
     };
 
     // Like flatMap, create new streams for each source event.
     // Instead of merging all created streams, it switches between them so that
     // when a new stream is created, the earlierly created stream is no longer listened to.
     constructor.prototype.flatMapLatest = function(streamCreator) {
-      var flattenEventStream = new Stream.EventStream();
+      var flattenStream = new Stream.Stream();
       var latestStream;
       this.subscribe(function(value) {
         var currentStream = streamCreator(value);
         latestStream = currentStream;
-        latestStream.subscribe(function(valueOnEachEventStream) {
+        latestStream.subscribe(function(valueOnEachStream) {
           if (currentStream === latestStream) {
-            flattenEventStream.publish(valueOnEachEventStream);
+            flattenStream.publish(valueOnEachStream);
           }
         });
       });
-      return flattenEventStream;
+      return flattenStream;
     };
 
     return constructor;
