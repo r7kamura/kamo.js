@@ -26,7 +26,6 @@ a          : --1----->
                |
 b          : -----2-->
                |  |
-               v  v
 a.merge(b) : --1--2-->
 ```
 
@@ -46,16 +45,22 @@ b.publish(2);
 ```
 
 ### scan
+```
+a               : --1--2--3-->
+                    |  |  |
+a.scan(0, plus) : --1--3--6-->
+```
+
 ```js
-var stream = new Stream.EventStream();
-stream.scan(0, function(currentValue, newValue) {
+var a = new Stream.EventStream();
+a.scan(0, function(currentValue, newValue) {
   return currentValue + newValue;
 }).subscribe(function(value) {
   console.log(value);
 });
-stream.publish(1);
-stream.publish(2);
-stream.publish(3);
+a.publish(1);
+a.publish(2);
+a.publish(3);
 ```
 
 ```
@@ -65,16 +70,22 @@ stream.publish(3);
 ```
 
 ### filter
+```
+a           : --1--2--3-->
+                |     |
+a.filter(f) : --1-----3-->
+```
+
 ```js
-var stream = new Stream.EventStream();
-stream.filter(function(value) {
-  return value >= 0;
+var a = new Stream.EventStream();
+a.filter(function(value) {
+  return value % 2 == 1;
 }).subscribe(function(value) {
   console.log(value);
 });
-stream.publish(1);
-stream.publish(-2);
-stream.publish(3);
+a.publish(1);
+a.publish(2);
+a.publish(3);
 ```
 
 ```
@@ -83,23 +94,39 @@ stream.publish(3);
 ```
 
 ### map
+```
+a        : --1--2--3-->
+             |  |  |
+a.map(f) : --2--4--6-->
+```
+
 ```js
-var stream = new Stream.EventStream();
-stream.map(function(value) {
+var a = new Stream.EventStream();
+a.map(function(value) {
   return value * 2;
 }).subscribe(function(value) {
   console.log(value);
 });
-stream.publish(1);
-stream.publish(2);
+a.publish(1);
+a.publish(2);
+a.publish(3);
 ```
 
 ```
 2
 4
+6
 ```
 
 ### combine
+```
+a               : --1-----3----->
+                    |     |
+b               : -----2-----4-->
+                    `--|`-|`-|
+a.combine(b, f) : -----3--5--7-->
+```
+
 ```js
 var a = new Stream.EventStream();
 var b = new Stream.EventStream();
@@ -121,6 +148,14 @@ b.publish(4);
 ```
 
 ### sampledBy
+```
+a                 : --1-----3----->
+                      |     |
+b                 : -----2-----4-->
+                      `--|  `--|
+a.sampledBy(b, f) : -----3-----7-->
+```
+
 ```js
 var a = new Stream.EventStream();
 var b = new Stream.EventStream();
@@ -141,9 +176,19 @@ b.publish(4);
 ```
 
 ### flatMap
+```
+a            : --1---2--------------->
+                 |   |
+               f(1)------2--3-------->
+                     |   |  |
+                   f(2)--------4--6-->
+                         |  |  |  |
+a.flatMap(f) : ----------2--3--4--6-->
+```
+
 ```js
-var stream = new Stream.EventStream();
-stream.flatMap(function(value) {
+var a = new Stream.EventStream();
+a.flatMap(function(value) {
   var eachEventStream = new Stream.EventStream();
   window.setTimeout(
     function() {
@@ -156,8 +201,8 @@ stream.flatMap(function(value) {
 }).subscribe(function(value) {
   console.log(value);
 });
-stream.publish(1);
-stream.publish(2);
+a.publish(1);
+a.publish(2);
 ```
 
 ```
@@ -168,9 +213,19 @@ stream.publish(2);
 ```
 
 ### flatMapLatest
+```
+a            : --1---2--------------->
+                 |   |
+               f(1)------2--3-------->
+                     |
+                   f(2)--------4--6-->
+                               |  |
+a.flatMap(f) : ----------------4--6-->
+```
+
 ```js
-var stream = new Stream.EventStream();
-stream.flatMapLatest(function(value) {
+var a = new Stream.EventStream();
+a.flatMapLatest(function(value) {
   var eachEventStream = new Stream.EventStream();
   window.setTimeout(
     function() {
@@ -183,8 +238,8 @@ stream.flatMapLatest(function(value) {
 }).subscribe(function(value) {
   console.log(value);
 });
-stream.publish(1);
-stream.publish(2);
+a.publish(1);
+a.publish(2);
 ```
 
 ```
