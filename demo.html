@@ -45,6 +45,18 @@
       });
       f.publish(1);
       f.publish(2);
+
+      var g = new Stream.EventStream();
+      var h = new Stream.EventStream();
+      g.combine(h, function(gValue, hValue) {
+        return gValue + hValue;
+      }).subscribe(function(value) {
+        console.log(value);
+      });
+      g.publish(1);
+      h.publish(2);
+      g.publish(3);
+      h.publish(4);
     </script>
   </body>
 </html>

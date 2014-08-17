@@ -66,6 +66,31 @@
       return mapEventStream;
     };
 
+    // Combines the latest values of 2 EventStreams.
+    // combiner must be a Function that takes 2 arguments.
+    constructor.prototype.combine = function(anotherEventStream, combiner) {
+      var combinedEventStream = new Stream.EventStream();
+      var latestValueOfThis;
+      var latestValueOfAnother;
+      var hasAnyValueOfThis = false;
+      var hasAnyValueOfAnother = false;
+      this.subscribe(function(value) {
+        latestValueOfThis = value;
+        hasAnyValueOfThis = true;
+        if (hasAnyValueOfAnother) {
+          combinedEventStream.publish(combiner(latestValueOfThis, latestValueOfAnother));
+        }
+      });
+      anotherEventStream.subscribe(function(value) {
+        latestValueOfAnother = value;
+        hasAnyValueOfAnother = true;
+        if (hasAnyValueOfThis) {
+          combinedEventStream.publish(combiner(latestValueOfThis, latestValueOfAnother));
+        }
+      });
+      return combinedEventStream;
+    };
+
     return constructor;
   })();
 
