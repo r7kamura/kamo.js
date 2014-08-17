@@ -123,6 +123,24 @@
       return flattenEventStream;
     };
 
+    // Like flatMap, create new streams for each source event.
+    // Instead of merging all created streams, it switches between them so that
+    // when a new stream is created, the earlierly created stream is no longer listened to.
+    constructor.prototype.flatMapLatest = function(streamCreator) {
+      var flattenEventStream = new Stream.EventStream();
+      var latestStream;
+      this.subscribe(function(value) {
+        var currentStream = streamCreator(value);
+        latestStream = currentStream;
+        latestStream.subscribe(function(valueOnEachEventStream) {
+          if (currentStream === latestStream) {
+            flattenEventStream.publish(valueOnEachEventStream);
+          }
+        });
+      });
+      return flattenEventStream;
+    };
+
     return constructor;
   })();
 

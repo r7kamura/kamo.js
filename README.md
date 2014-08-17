@@ -157,3 +157,28 @@ stream.publish(2);
 4
 6
 ```
+
+### flatMapLatest
+```js
+var stream = new Stream.EventStream();
+stream.flatMapLatest(function(value) {
+  var eachEventStream = new Stream.EventStream();
+  window.setTimeout(
+    function() {
+      eachEventStream.publish(value * 2);
+      eachEventStream.publish(value * 3);
+    },
+    1000
+  );
+  return eachEventStream;
+}).subscribe(function(value) {
+  console.log(value);
+});
+stream.publish(1);
+stream.publish(2);
+```
+
+```
+4
+6
+```

@@ -86,6 +86,23 @@
       });
       k.publish(1);
       k.publish(2);
+
+      var l = new Stream.EventStream();
+      l.flatMapLatest(function(value) {
+        var eachEventStream = new Stream.EventStream();
+        window.setTimeout(
+          function() {
+            eachEventStream.publish(value * 2);
+            eachEventStream.publish(value * 3);
+          },
+          1000
+        );
+        return eachEventStream;
+      }).subscribe(function(value) {
+        console.log(value);
+      });
+      l.publish(1);
+      l.publish(2);
     </script>
   </body>
 </html>
