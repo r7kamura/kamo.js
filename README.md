@@ -21,19 +21,28 @@ stream.publish(3);
 ```
 
 ### merge
+```
+a          : --1----->
+               |
+b          : -----2-->
+               |  |
+               v  v
+a.merge(b) : --1--2-->
+```
+
 ```js
 var a = new Stream.EventStream();
 var b = new Stream.EventStream();
 a.merge(b).subscribe(function(value) {
   console.log(value);
 });
-a.publish('a');
-b.publish('b');
+a.publish(1);
+b.publish(2);
 ```
 
 ```
-a
-b
+1
+2
 ```
 
 ### scan
