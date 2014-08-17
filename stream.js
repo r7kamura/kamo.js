@@ -56,6 +56,16 @@
       return filteredEventStream;
     };
 
+    // Create a new EventStream that publishes applicaiton results of given map function.
+    // map must be a Function.
+    constructor.prototype.map = function(map) {
+      var mapEventStream = new Stream.EventStream();
+      this.subscribe(function(value) {
+        mapEventStream.publish(map(value));
+      });
+      return mapEventStream;
+    };
+
     return constructor;
   })();
 

@@ -36,6 +36,15 @@
       e.publish(1);
       e.publish(-2);
       e.publish(3);
+
+      var f = new Stream.EventStream();
+      f.map(function(value) {
+        return value * 2;
+      }).subscribe(function(value) {
+        console.log(value);
+      });
+      f.publish(1);
+      f.publish(2);
     </script>
   </body>
 </html>
