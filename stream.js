@@ -144,5 +144,9 @@
     return constructor;
   })();
 
-  window.Stream = Stream;
+  if (typeof module == 'undefined') {
+    window.Stream = Stream;
+  } else {
+    module.exports = Stream;
+  }
 })();
