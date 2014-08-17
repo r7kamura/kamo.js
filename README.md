@@ -11,7 +11,7 @@ A library to control event streams on Functional Reactive Programming model.
 ```
 
 ## API
-* Stream
+* kamo.Stream
  * #merge
  * #scan
  * #filter
@@ -21,8 +21,8 @@ A library to control event streams on Functional Reactive Programming model.
  * #flatMap
  * #flatMapLatest
 
-### new Stream()
-Stream is a class for composable mediator, basically for Pub/Sub messaging model.
+### new kamo.Stream()
+kamo.Stream is a class for composable mediator, basically for Pub/Sub messaging model.
 
 ```js
 var stream = new kamo.Stream();
