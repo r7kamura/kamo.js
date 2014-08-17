@@ -1,9 +1,9 @@
 (function() {
-  // Stream is used as a namespace of this library.
-  var Stream = {};
+  // kamo is a namespace for this library.
+  var kamo = {};
 
   // Stream is a class object that represents an event stream.
-  Stream.Stream = (function () {
+  kamo.Stream = (function () {
     var constructor = function() {
       this.subscriptions = [];
     };
@@ -23,7 +23,7 @@
 
     // Creates a new Stream by merging 2 Stream.
     constructor.prototype.merge = function(anotherStream) {
-      var mergedStream = new Stream.Stream();
+      var mergedStream = new kamo.Stream();
       this.subscribe(function(value) {
         mergedStream.publish(value);
       });
@@ -35,7 +35,7 @@
 
     // Creates a new Stream as an accumulator from given seed and function.
     constructor.prototype.scan = function(seed, accumulator) {
-      var accumulatorStream = new Stream.Stream();
+      var accumulatorStream = new kamo.Stream();
       var currentValue = seed;
       this.subscribe(function(value) {
         currentValue = accumulator(currentValue, value);
@@ -46,7 +46,7 @@
 
     // Creates a new Stream that filters values by given function.
     constructor.prototype.filter = function(filter) {
-      var filteredStream = new Stream.Stream();
+      var filteredStream = new kamo.Stream();
       this.subscribe(function(value) {
         if (filter(value)) {
           filteredStream.publish(value);
@@ -57,7 +57,7 @@
 
     // Creates a new Stream that publishes applicaiton results of given function.
     constructor.prototype.map = function(map) {
-      var mapStream = new Stream.Stream();
+      var mapStream = new kamo.Stream();
       this.subscribe(function(value) {
         mapStream.publish(map(value));
       });
@@ -66,7 +66,7 @@
 
     // Creates a new Stream that publishes the combination of the latest values.
     constructor.prototype.combine = function(anotherStream, combiner) {
-      var combinedStream = new Stream.Stream();
+      var combinedStream = new kamo.Stream();
       var latestValueOfThis;
       var latestValueOfAnother;
       var hasAnyValueOfThis = false;
@@ -90,7 +90,7 @@
 
     // Like `combine`, but only publishes values when any values are published from given Stream.
     constructor.prototype.sampledBy = function(anotherStream, combiner) {
-      var sampledStream = new Stream.Stream();
+      var sampledStream = new kamo.Stream();
       var latestValueOfThis;
       var hasAnyValueOfThis = false;
       this.subscribe(function(value) {
@@ -108,7 +108,7 @@
     // Creates a new Stream for each value in the soruce stream, using the given map.
     // The events from all created stream are merged into the result stream.
     constructor.prototype.flatMap = function(streamCreator) {
-      var flattenStream = new Stream.Stream();
+      var flattenStream = new kamo.Stream();
       this.subscribe(function(value) {
         streamCreator(value).subscribe(function(valueOnEachStream) {
           flattenStream.publish(valueOnEachStream);
@@ -121,7 +121,7 @@
     // Instead of merging all created streams, it switches between them so that
     // when a new stream is created, the earlierly created stream is no longer listened to.
     constructor.prototype.flatMapLatest = function(streamCreator) {
-      var flattenStream = new Stream.Stream();
+      var flattenStream = new kamo.Stream();
       var latestStream;
       this.subscribe(function(value) {
         var currentStream = streamCreator(value);
@@ -139,8 +139,8 @@
   })();
 
   if (typeof module == 'undefined') {
-    window.Stream = Stream;
+    window.kamo = kamo;
   } else {
-    module.exports = Stream;
+    module.exports = kamo;
   }
 })();

@@ -5,7 +5,7 @@ A library to control event streams on Functional Reactive Programming model.
 kamo.js provides `kamo.Stream` class object for pub-sub event model.
 
 ```js
-var stream = new Stream.Stream();
+var stream = new kamo.Stream();
 stream.subscribe(function(value) {
   console.log(value);
 });
@@ -32,8 +32,8 @@ a.merge(b) : --1--2-->
 ```
 
 ```js
-var a = new Stream.Stream();
-var b = new Stream.Stream();
+var a = new kamo.Stream();
+var b = new kamo.Stream();
 a.merge(b).subscribe(function(value) {
   console.log(value);
 });
@@ -56,7 +56,7 @@ a.scan(0, plus) : --1--3--6-->
 ```
 
 ```js
-var a = new Stream.Stream();
+var a = new kamo.Stream();
 a.scan(0, function(currentValue, newValue) {
   return currentValue + newValue;
 }).subscribe(function(value) {
@@ -83,7 +83,7 @@ a.filter(f) : --1-----3-->
 ```
 
 ```js
-var a = new Stream.Stream();
+var a = new kamo.Stream();
 a.filter(function(value) {
   return value % 2 == 1;
 }).subscribe(function(value) {
@@ -109,7 +109,7 @@ a.map(f) : --2--4--6-->
 ```
 
 ```js
-var a = new Stream.Stream();
+var a = new kamo.Stream();
 a.map(function(value) {
   return value * 2;
 }).subscribe(function(value) {
@@ -138,8 +138,8 @@ a.combine(b, f) : -----3--5--7-->
 ```
 
 ```js
-var a = new Stream.Stream();
-var b = new Stream.Stream();
+var a = new kamo.Stream();
+var b = new kamo.Stream();
 a.combine(b, function(aValue, bValue) {
   return aValue + bValue;
 }).subscribe(function(value) {
@@ -169,8 +169,8 @@ a.sampledBy(b, f) : -----3-----7-->
 ```
 
 ```js
-var a = new Stream.Stream();
-var b = new Stream.Stream();
+var a = new kamo.Stream();
+var b = new kamo.Stream();
 a.sampledBy(b, function(aValue, bValue) {
   return aValue + bValue;
 }).subscribe(function(value) {
@@ -202,9 +202,9 @@ a.flatMap(f) : ----------2--3--4--6-->
 ```
 
 ```js
-var a = new Stream.Stream();
+var a = new kamo.Stream();
 a.flatMap(function(value) {
-  var eachStream = new Stream.Stream();
+  var eachStream = new kamo.Stream();
   window.setTimeout(
     function() {
       eachStream.publish(value * 2);
@@ -243,9 +243,9 @@ a.flatMap(f) : ----------------4--6-->
 ```
 
 ```js
-var a = new Stream.Stream();
+var a = new kamo.Stream();
 a.flatMapLatest(function(value) {
-  var eachStream = new Stream.Stream();
+  var eachStream = new kamo.Stream();
   window.setTimeout(
     function() {
       eachStream.publish(value * 2);
