@@ -302,9 +302,8 @@ kamo.Stream.fromEventHandler(window, 'onkeyup').subscribe(function(event) {
 38
 ```
 
-The above example is equal to the following code:
-
 ```js
+// The above example is equal to the following code.
 (function() {
   var stream = new kamo.Stream();
   window.onkeyup = function(event) {
