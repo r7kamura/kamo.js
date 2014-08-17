@@ -30,7 +30,7 @@ stream.publish(3);
 3
 ```
 
-### merge(stream)
+### Stream#merge(Stream) -> Stream
 Creates a new Stream by merging 2 Stream.
 
 ```
@@ -56,7 +56,7 @@ b.publish(2);
 2
 ```
 
-### scan(seed, f)
+### Stream#scan(Any, function(Any, Any) -> Any) -> Stream
 Creates a new Stream as an accumulator from given seed and function.
 
 ```
@@ -83,7 +83,7 @@ a.publish(3);
 6
 ```
 
-### filter(f)
+### Stream#filter(function(Any) -> Boolean) -> Stream
 Creates a new Stream that filters values by given function.
 
 ```
@@ -109,7 +109,7 @@ a.publish(3);
 3
 ```
 
-### map(f)
+### Stream#map(function(Any) -> Any) -> Stream
 Creates a new Stream that publishes applicaiton results of given function.
 
 ```
@@ -136,7 +136,7 @@ a.publish(3);
 6
 ```
 
-### combine(stream, f)
+### Stream#combine(Stream, function(Any, Any) -> Any) -> Stream
 Creates a new Stream that publishes the combination of the latest values.
 
 ```
@@ -167,7 +167,7 @@ b.publish(4);
 7
 ```
 
-### sampledBy(stream, f)
+### Stream#sampledBy(Stream, function(Any, Any) -> Any) -> Stream
 Like `combine`, but only publishes values when any values are published from given Stream.
 
 ```
@@ -197,7 +197,7 @@ b.publish(4);
 7
 ```
 
-### flatMap(f)
+### Stream#flatMap(function(Any) -> Stream) -> Stream
 Creates a new Stream for each value in the soruce stream, using the given map.
 The events from all created stream are merged into the result stream.
 
@@ -237,7 +237,7 @@ a.publish(2);
 6
 ```
 
-### flatMapLatest(f)
+### Stream#flatMapLatest(function(Any) -> Stream) -> Stream
 Like `flatMap`, creates new streams for each source event.
 Instead of merging all created streams, it switches between them so that
 when a new stream is created, the earlier-created stream is no longer listened to.
