@@ -36,13 +36,13 @@
 
     // Create a new EventStream as an accumulator from given seed and callback.
     constructor.prototype.scan = function(seed, accumulator) {
-      var eventStream = new Stream.EventStream();
+      var accumulatorEventStream = new Stream.EventStream();
       var currentValue = seed;
       this.subscribe(function(value) {
         currentValue = accumulator(currentValue, value);
-        eventStream.publish(currentValue);
+        accumulatorEventStream.publish(currentValue);
       });
-      return eventStream;
+      return accumulatorEventStream;
     };
 
     // filter must be a Function.
