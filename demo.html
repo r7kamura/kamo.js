@@ -57,6 +57,18 @@
       h.publish(2);
       g.publish(3);
       h.publish(4);
+
+      var i = new Stream.EventStream();
+      var j = new Stream.EventStream();
+      i.sampledBy(j, function(iValue, jValue) {
+        return iValue + jValue;
+      }).subscribe(function(value) {
+        console.log(value);
+      });
+      i.publish(1);
+      j.publish(2);
+      i.publish(3);
+      j.publish(4);
     </script>
   </body>
 </html>

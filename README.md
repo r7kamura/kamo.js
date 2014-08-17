@@ -110,3 +110,23 @@ b.publish(4);
 5
 7
 ```
+
+### sampledBy
+```js
+var a = new Stream.EventStream();
+var b = new Stream.EventStream();
+a.sampledBy(b, function(aValue, bValue) {
+  return aValue + bValue;
+}).subscribe(function(value) {
+  console.log(value);
+});
+a.publish(1);
+b.publish(2);
+a.publish(3);
+b.publish(4);
+```
+
+```
+3
+7
+```

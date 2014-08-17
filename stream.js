@@ -67,6 +67,7 @@
     };
 
     // Combines the latest values of 2 EventStreams.
+    // anotherEventStream must be a EventStream.
     // combiner must be a Function that takes 2 arguments.
     constructor.prototype.combine = function(anotherEventStream, combiner) {
       var combinedEventStream = new Stream.EventStream();
@@ -89,6 +90,25 @@
         }
       });
       return combinedEventStream;
+    };
+
+    // Like combine, but only outputs a new value on a new value to the anotherEventStream.
+    // anotherEventStream must be a EventStream.
+    // combiner must be a Function that takes 2 arguments.
+    constructor.prototype.sampledBy = function(anotherEventStream, combiner) {
+      var sampledEventStream = new Stream.EventStream();
+      var latestValueOfThis;
+      var hasAnyValueOfThis = false;
+      this.subscribe(function(value) {
+        latestValueOfThis = value;
+        hasAnyValueOfThis = true;
+      });
+      anotherEventStream.subscribe(function(value) {
+        if (hasAnyValueOfThis) {
+          sampledEventStream.publish(combiner(latestValueOfThis, value));
+        }
+      });
+      return sampledEventStream;
     };
 
     return constructor;
