@@ -9,9 +9,9 @@
     };
 
     // Invoke all registered subscriptions with passing given event.
-    constructor.prototype.publish = function(event) {
+    constructor.prototype.publish = function(value) {
       for (var i = 0, length = this.subscriptions.length; i < length; i++) {
-        this.subscriptions[i](event);
+        this.subscriptions[i](value);
       }
     };
 
@@ -25,11 +25,11 @@
     // anotherEventStream must be a Stream.EventStream.
     constructor.prototype.merge = function(anotherEventStream) {
       var mergedEventStream = new Stream.EventStream();
-      this.subscribe(function(event) {
-        mergedEventStream.publish(event);
+      this.subscribe(function(value) {
+        mergedEventStream.publish(value);
       });
-      anotherEventStream.subscribe(function(event) {
-        mergedEventStream.publish(event);
+      anotherEventStream.subscribe(function(value) {
+        mergedEventStream.publish(value);
       });
       return mergedEventStream;
     };
@@ -38,8 +38,8 @@
     constructor.prototype.scan = function(seed, accumulator) {
       var eventStream = new Stream.EventStream();
       var currentValue = seed;
-      this.subscribe(function(event) {
-        currentValue = accumulator(currentValue, event);
+      this.subscribe(function(value) {
+        currentValue = accumulator(currentValue, value);
         eventStream.publish(currentValue);
       });
       return eventStream;
