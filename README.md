@@ -11,8 +11,19 @@ A library to control event streams on Functional Reactive Programming model.
 `--src     : Source files written in JavaScript (kamo.js is located here)
 ```
 
-## Examples
-kamo.js provides `kamo.Stream` class object for pub-sub event model.
+## API
+* Stream
+ * #merge
+ * #scan
+ * #filter
+ * #map
+ * #combine
+ * #sampledBy
+ * #flatMap
+ * #flatMapLatest
+
+### new Stream()
+Stream is a class for composable mediator, basically for Pub/Sub messaging model.
 
 ```js
 var stream = new kamo.Stream();
@@ -30,7 +41,7 @@ stream.publish(3);
 3
 ```
 
-### Stream#merge(Stream) -> Stream
+### #merge(Stream) -> Stream
 Creates a new Stream by merging 2 Stream.
 
 ```
@@ -56,7 +67,7 @@ b.publish(2);
 2
 ```
 
-### Stream#scan(Any, function(Any, Any) -> Any) -> Stream
+### #scan(Any, function(Any, Any) -> Any) -> Stream
 Creates a new Stream as an accumulator from given seed and function.
 
 ```
@@ -83,7 +94,7 @@ a.publish(3);
 6
 ```
 
-### Stream#filter(function(Any) -> Boolean) -> Stream
+### #filter(function(Any) -> Boolean) -> Stream
 Creates a new Stream that filters values by given function.
 
 ```
@@ -109,7 +120,7 @@ a.publish(3);
 3
 ```
 
-### Stream#map(function(Any) -> Any) -> Stream
+### #map(function(Any) -> Any) -> Stream
 Creates a new Stream that publishes applicaiton results of given function.
 
 ```
@@ -136,7 +147,7 @@ a.publish(3);
 6
 ```
 
-### Stream#combine(Stream, function(Any, Any) -> Any) -> Stream
+### #combine(Stream, function(Any, Any) -> Any) -> Stream
 Creates a new Stream that publishes the combination of the latest values.
 
 ```
@@ -167,7 +178,7 @@ b.publish(4);
 7
 ```
 
-### Stream#sampledBy(Stream, function(Any, Any) -> Any) -> Stream
+### #sampledBy(Stream, function(Any, Any) -> Any) -> Stream
 Like `combine`, but only publishes values when any values are published from given Stream.
 
 ```
@@ -197,7 +208,7 @@ b.publish(4);
 7
 ```
 
-### Stream#flatMap(function(Any) -> Stream) -> Stream
+### #flatMap(function(Any) -> Stream) -> Stream
 Creates a new Stream for each value in the soruce stream, using the given map.
 The events from all created stream are merged into the result stream.
 
@@ -237,7 +248,7 @@ a.publish(2);
 6
 ```
 
-### Stream#flatMapLatest(function(Any) -> Stream) -> Stream
+### #flatMapLatest(function(Any) -> Stream) -> Stream
 Like `flatMap`, creates new streams for each source event.
 Instead of merging all created streams, it switches between them so that
 when a new stream is created, the earlier-created stream is no longer listened to.
