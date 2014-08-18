@@ -1,6 +1,10 @@
 # kamo.js
 A library to control event streams on Functional Reactive Programming model.
 
+* [Files](https://github.com/r7kamura/kamo.js#files)
+* [API](https://github.com/r7kamura/kamo.js#api)
+* [Examples](https://github.com/r7kamura/kamo.js#examples)
+
 ![](image/kamo.jpg)
 
 ## Files
@@ -397,6 +401,6 @@ a.debounce(1500).subscribe(function(value) {
 1
 ```
 
-## More examples
+## Examples
 * [autocomplete](example/autocomplete)
 * [konami code](example/konami_code)
