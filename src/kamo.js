@@ -2,6 +2,8 @@
   // kamo is a namespace for this library.
   var kamo = {};
 
+  kamo.End = "<kamo-end>"
+    
   // Stream is a class object that represents an event stream.
   kamo.Stream = (function () {
     var constructor = function() {
@@ -31,14 +33,26 @@
     // Invokes all registered subscriptions with passing given value.
     constructor.prototype.publish = function(value) {
       for (var i = 0, length = this.subscriptions.length; i < length; i++) {
-        this.subscriptions[i](value);
+        if (this.subscriptions[i]) {
+          this.subscriptions[i](value);
+        };
       }
     };
 
     // Registers a given callback function that will be called on each publish value.
     // subscription must be a Function.
     constructor.prototype.subscribe = function(subscription) {
-      this.subscriptions.push(subscription);
+      
+      var self = this;
+      var wrapper = function(value) {
+        subscription(value);
+        if (value == kamo.End) {
+          var subscriptions = self.subscriptions;
+          delete subscriptions[subscriptions.indexOf(wrapper)];
+        }
+      };
+      
+      this.subscriptions.push(wrapper);
     };
 
     // Creates a new Stream by merging 2 Stream.
@@ -183,6 +197,15 @@
         });
       });
     };
+
+    
+    // terminate the stream and all the subscriptions
+    constructor.prototype.end = function() {
+      this.subscriptions.length = 0;
+    };
+
+
+    
 
     return constructor;
   })();
