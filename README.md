@@ -293,9 +293,9 @@ a.publish(2);
 Throttles its stream by given amount of milliseconds.
 
 ```
-a                   : --1---1---1---1---1-->
-
-a.throttle(integer) : --1-------1-------1-->
+a                   : --1--1--1--1--1-->
+                        |     |     |
+a.throttle(integer) : --1-----1-----1-->
 ```
 
 ```js
@@ -321,9 +321,9 @@ window.setInterval(
 Like `throttle`, but so that event is only published after the given quiet period.
 
 ```
-a                   : --1---1---1---1---1---1-->
-
-a.debounce(integer) : ---------1-----------1--->
+a                   : --1---1-------1--------->
+                             `-----. `-----.
+a.debounce(integer) : -------------1-------1-->
 ```
 
 ```js
