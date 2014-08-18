@@ -287,6 +287,28 @@ a.publish(2);
 6
 ```
 
+### #throttle(Integer) -> Stream
+Throttles its stream by given amount of milliseconds.
+
+```
+a:                  : --1--1--1--1--1-->
+
+a.throttle(integer) : --1-----1-----1-->
+```
+
+```js
+var a = new kamo.Stream();
+a.throttle(1500).subscribe(function(value) {
+  console.log(value);
+});
+window.setInterval(
+  function() {
+    a.publish(1);
+  },
+  1000
+);
+```
+
 ### .fromEventHandler(Object, String) -> Stream
 Sets an event handler to given object and creates a new Stream from this handler.
 

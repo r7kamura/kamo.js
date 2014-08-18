@@ -144,6 +144,25 @@
       return flattenStream;
     };
 
+    // Throttles its stream by given amount of milliseconds.
+    constructor.prototype.throttle = function(ms) {
+      var throttledStream = new constructor();
+      var locked = false;
+      this.subscribe(function(value) {
+        if (!locked) {
+          locked = true;
+          throttledStream.publish(value);
+          setTimeout(
+            function() {
+              locked = false;
+            },
+            ms
+          );
+        }
+      });
+      return throttledStream;
+    };
+
     return constructor;
   })();
 
