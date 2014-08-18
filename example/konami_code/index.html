@@ -22,7 +22,7 @@
         65  // a
       ];
 
-      kamo.Stream.fromEventHandler(window, 'onkeyup').map(function(value) {
+      kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').map(function(value) {
         return value.keyCode;
       }).scan([], function(values, value) {
         values.push(value);

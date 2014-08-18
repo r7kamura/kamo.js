@@ -12,7 +12,7 @@ A library to control event streams on Functional Reactive Programming model.
 
 ## API
 * [kamo.Stream](https://github.com/r7kamura/kamo.js#new-kamostream)
- * [.fromEventHandler](https://github.com/r7kamura/kamo.js#fromeventhandlerobject-string---stream)
+ * [.fromEventHandlerSetter](https://github.com/r7kamura/kamo.js#fromeventhandlersetterobject-string---stream)
  * [#merge](https://github.com/r7kamura/kamo.js#mergestream---stream)
  * [#scan](https://github.com/r7kamura/kamo.js#scanany-functionany-any---any---stream)
  * [#filter](https://github.com/r7kamura/kamo.js#filterfunctionany---boolean---stream)
@@ -43,11 +43,11 @@ stream.publish(3);
 3
 ```
 
-### .fromEventHandler(Object, String) -> Stream
-Creates a new Stream from the event handler property of given object.
+### .fromEventHandlerSetter(Object, String) -> Stream
+Creates a new Stream from an event handler setter of given object.
 
 ```js
-kamo.Stream.fromEventHandler(window, 'onkeyup').subscribe(function(event) {
+kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').subscribe(function(event) {
   console.log(event.keyCode);
 });
 ```
@@ -73,7 +73,7 @@ kamo.Stream.fromEventHandler(window, 'onkeyup').subscribe(function(event) {
 ```
 
 ### .fromEventHandlerFunction(Object, String, Any...]) -> Stream
-Creates a new Stream from the event handler function of given object.
+Creates a new Stream from an event handler function of given object.
 
 ```js
 kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).subscribe(function() {

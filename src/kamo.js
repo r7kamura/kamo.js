@@ -8,8 +8,8 @@
       this.subscriptions = [];
     };
 
-    // Creates a new Stream from the event handler property of given object.
-    constructor.fromEventHandler = function(object, propertyName) {
+    // Creates a new Stream from an event handler property of given object.
+    constructor.fromEventHandlerSetter = function(object, propertyName) {
       var stream = new constructor();
       object[propertyName] = function(event) {
         stream.publish(event);
@@ -17,7 +17,7 @@
       return stream;
     };
 
-    // Creates a new Stream from the event handler function of given object.
+    // Creates a new Stream from an event handler function of given object.
     constructor.fromEventHandlerFunction = function(object, functionName) {
       var args = Array.prototype.slice.call(arguments, 2);
       var stream = new constructor();
