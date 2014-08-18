@@ -1,6 +1,4 @@
 jQuery(function($) {
-  var $candidates = $('#candidates');
-
   kamo.Stream.fromEventHandlerFunction(
     $('#input'),
     'keyup'
@@ -27,10 +25,14 @@ jQuery(function($) {
       }),
       'done'
     );
-  }).subscribe(function(data) {
-    $candidates.empty();
-    $.each(data[1], function(_, value) {
-      $('<li>').append(document.createTextNode(value)).appendTo(candidates);
-    });
-  });
+  }).subscribe(
+    (function($candidates) {
+      return function(data) {
+        $candidates.empty();
+        $.each(data[1], function(_, value) {
+          $('<li>').append(document.createTextNode(value)).appendTo($candidates);
+        });
+      };
+    })($('#candidates'))
+  );
 });
