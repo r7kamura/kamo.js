@@ -359,16 +359,12 @@ a.throttle(integer) : --1-----1-----1-->
 ```
 
 ```js
-var a = new kamo.Stream();
+var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(function() {
+  return 1;
+});
 a.throttle(1500).subscribe(function(value) {
   console.log(value);
 });
-window.setInterval(
-  function() {
-    a.publish(1);
-  },
-  1000
-);
 ```
 
 ```
@@ -387,16 +383,12 @@ a.debounce(integer) : -------------1-------1-->
 ```
 
 ```js
-var a = new kamo.Stream();
+var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(function() {
+  return 1;
+});
 a.debounce(1500).subscribe(function(value) {
   console.log(value);
 });
-window.setInterval(
-  function() {
-    a.publish(1);
-  },
-  1000
-);
 ```
 
 ```
