@@ -5,7 +5,7 @@ A library to control event streams on Functional Reactive Programming model.
 
 ## Files
 ```
-|--example : Example HTML files
+|--example : Example projects
 |--image   : Image files for README
 `--src     : Source files written in JavaScript (kamo.js is located here)
 ```
@@ -396,3 +396,7 @@ a.debounce(1500).subscribe(function(value) {
 1
 1
 ```
+
+## More examples
+* [autocomplete](example/autocomplete)
+* [konami code](example/konami_code)
