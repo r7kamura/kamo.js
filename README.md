@@ -7,6 +7,8 @@ A library to control event streams on Functional Reactive Programming model.
 
 ![](image/kamo.jpg)
 
+(Photo from the [Kamo River](http://en.wikipedia.org/wiki/Kamo_River) in Kyoto Prefecture, Japan)
+
 ## Files
 ```
 |--example : Example projects
