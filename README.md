@@ -292,7 +292,7 @@ a.publish(2);
 Throttles its stream by given amount of milliseconds.
 
 ```
-a:                  : --1--1--1--1--1-->
+a                   : --1--1--1--1--1-->
 
 a.throttle(integer) : --1-----1-----1-->
 ```
