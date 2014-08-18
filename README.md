@@ -21,6 +21,7 @@ A library to control event streams on Functional Reactive Programming model.
  * [#flatMap](https://github.com/r7kamura/kamo.js#flatmapfunctionany---stream---stream)
  * [#flatMapLatest](https://github.com/r7kamura/kamo.js#flatmaplatestfunctionany---stream---stream)
  * [#throttle](https://github.com/r7kamura/kamo.js#throttleinteger---stream)
+ * [#debounce](https://github.com/r7kamura/kamo.js#debounceinteger---stream)
  * [.fromEventHandler](https://github.com/r7kamura/kamo.js#fromeventhandlerobject-string---stream)
 
 ### new kamo.Stream()
