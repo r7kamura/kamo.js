@@ -12,6 +12,7 @@ A library to control event streams on Functional Reactive Programming model.
 
 ## API
 * [kamo.Stream](https://github.com/r7kamura/kamo.js#new-kamostream)
+ * [.fromEventHandler](https://github.com/r7kamura/kamo.js#fromeventhandlerobject-string---stream)
  * [#merge](https://github.com/r7kamura/kamo.js#mergestream---stream)
  * [#scan](https://github.com/r7kamura/kamo.js#scanany-functionany-any---any---stream)
  * [#filter](https://github.com/r7kamura/kamo.js#filterfunctionany---boolean---stream)
@@ -22,7 +23,6 @@ A library to control event streams on Functional Reactive Programming model.
  * [#flatMapLatest](https://github.com/r7kamura/kamo.js#flatmaplatestfunctionany---stream---stream)
  * [#throttle](https://github.com/r7kamura/kamo.js#throttleinteger---stream)
  * [#debounce](https://github.com/r7kamura/kamo.js#debounceinteger---stream)
- * [.fromEventHandler](https://github.com/r7kamura/kamo.js#fromeventhandlerobject-string---stream)
 
 ### new kamo.Stream()
 kamo.Stream is a class for composable mediator, basically for Pub/Sub messaging model.
@@ -41,6 +41,35 @@ stream.publish(3);
 1
 2
 3
+```
+
+### .fromEventHandler(Object, String) -> Stream
+Sets an event handler to given object and creates a new Stream from this handler.
+
+```js
+kamo.Stream.fromEventHandler(window, 'onkeyup').subscribe(function(event) {
+  console.log(event.keyCode);
+});
+```
+
+```
+40
+40
+38
+38
+```
+
+```js
+// The above example is equal to the following code.
+(function() {
+  var stream = new kamo.Stream();
+  window.onkeyup = function(event) {
+    stream.publish(event);
+  };
+  stream.subscribe(function(event) {
+    console.log(event.keyCode);
+  });
+})();
 ```
 
 ### #merge(Stream) -> Stream
@@ -342,33 +371,4 @@ window.setInterval(
 ```
 1
 1
-```
-
-### .fromEventHandler(Object, String) -> Stream
-Sets an event handler to given object and creates a new Stream from this handler.
-
-```js
-kamo.Stream.fromEventHandler(window, 'onkeyup').subscribe(function(event) {
-  console.log(event.keyCode);
-});
-```
-
-```
-40
-40
-38
-38
-```
-
-```js
-// The above example is equal to the following code.
-(function() {
-  var stream = new kamo.Stream();
-  window.onkeyup = function(event) {
-    stream.publish(event);
-  };
-  stream.subscribe(function(event) {
-    console.log(event.keyCode);
-  });
-})();
 ```
