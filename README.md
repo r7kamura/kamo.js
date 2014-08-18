@@ -292,9 +292,9 @@ a.publish(2);
 Throttles its stream by given amount of milliseconds.
 
 ```
-a                   : --1--1--1--1--1-->
+a                   : --1---1---1---1---1-->
 
-a.throttle(integer) : --1-----1-----1-->
+a.throttle(integer) : --1-------1-------1-->
 ```
 
 ```js
@@ -308,6 +308,39 @@ window.setInterval(
   },
   1000
 );
+```
+
+```
+1
+1
+1
+```
+
+### #debounce(Integer) -> Stream
+Like `throttle`, but so that event is only published after the given quoted period.
+
+```
+a                   : --1---1---1---1---1---1-->
+
+a.debounce(integer) : ---------1-----------1--->
+```
+
+```js
+var a = new kamo.Stream();
+a.debounce(1500).subscribe(function(value) {
+  console.log(value);
+});
+window.setInterval(
+  function() {
+    a.publish(1);
+  },
+  1000
+);
+```
+
+```
+1
+1
 ```
 
 ### .fromEventHandler(Object, String) -> Stream

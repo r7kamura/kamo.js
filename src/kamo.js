@@ -163,6 +163,21 @@
       return throttledStream;
     };
 
+    // Like `throttle`, but so that event is only published after the given quoted period.
+    constructor.prototype.debounce = function(ms) {
+      var timeoutId;
+      return this.flatMapLatest(function(value) {
+        var stream = new constructor();
+        setTimeout(
+          function() {
+            stream.publish(value);
+          },
+          ms
+        );
+        return stream;
+      });
+    };
+
     return constructor;
   })();
 
