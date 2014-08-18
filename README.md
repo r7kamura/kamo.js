@@ -13,6 +13,7 @@ A library to control event streams on Functional Reactive Programming model.
 ## API
 * [kamo.Stream](https://github.com/r7kamura/kamo.js#new-kamostream)
  * [.fromEventHandlerSetter](https://github.com/r7kamura/kamo.js#fromeventhandlersetterobject-string---stream)
+ * [.fromEventHandlerFunction](https://github.com/r7kamura/kamo.js#fromeventhandlerfunctionobject-string-any---stream)
  * [#merge](https://github.com/r7kamura/kamo.js#mergestream---stream)
  * [#scan](https://github.com/r7kamura/kamo.js#scanany-functionany-any---any---stream)
  * [#filter](https://github.com/r7kamura/kamo.js#filterfunctionany---boolean---stream)
