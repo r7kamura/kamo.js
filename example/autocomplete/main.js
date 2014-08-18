@@ -30,7 +30,7 @@ jQuery(function($) {
   }).subscribe(function(data) {
     $candidates.empty();
     $.each(data[1], function(_, value) {
-      $('<li>' + value + '</li>').appendTo(candidates);
+      $('<li>').append(document.createTextNode(value)).appendTo(candidates);
     });
   });
 });
