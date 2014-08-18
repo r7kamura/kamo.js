@@ -8,12 +8,23 @@
       this.subscriptions = [];
     };
 
-    // Sets an event handler to given object and creates a new Stream from this handler.
+    // Creates a new Stream from the event handler property of given object.
     constructor.fromEventHandler = function(object, propertyName) {
       var stream = new constructor();
       object[propertyName] = function(event) {
         stream.publish(event);
       };
+      return stream;
+    };
+
+    // Creates a new Stream from the event handler function of given object.
+    constructor.fromEventHandlerFunction = function(object, functionName) {
+      var args = Array.prototype.slice.call(arguments, 2);
+      var stream = new constructor();
+      args.unshift(function(event) {
+        stream.publish(event);
+      });
+      object[functionName].apply(object, args);
       return stream;
     };
 
@@ -167,14 +178,9 @@
     constructor.prototype.debounce = function(ms) {
       var timeoutId;
       return this.flatMapLatest(function(value) {
-        var stream = new constructor();
-        setTimeout(
-          function() {
-            stream.publish(value);
-          },
-          ms
-        );
-        return stream;
+        return constructor.fromEventHandlerFunction(window, 'setTimeout', ms).map(function() {
+          return value;
+        });
       });
     };
 

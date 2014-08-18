@@ -44,7 +44,7 @@ stream.publish(3);
 ```
 
 ### .fromEventHandler(Object, String) -> Stream
-Sets an event handler to given object and creates a new Stream from this handler.
+Creates a new Stream from the event handler property of given object.
 
 ```js
 kamo.Stream.fromEventHandler(window, 'onkeyup').subscribe(function(event) {
@@ -60,7 +60,7 @@ kamo.Stream.fromEventHandler(window, 'onkeyup').subscribe(function(event) {
 ```
 
 ```js
-// The above example is equal to the following code.
+// The above example is equal to the following.
 (function() {
   var stream = new kamo.Stream();
   window.onkeyup = function(event) {
@@ -68,6 +68,37 @@ kamo.Stream.fromEventHandler(window, 'onkeyup').subscribe(function(event) {
   };
   stream.subscribe(function(event) {
     console.log(event.keyCode);
+  });
+})();
+```
+
+### .fromEventHandlerFunction(Object, String, Any...]) -> Stream
+Creates a new Stream from the event handler function of given object.
+
+```js
+kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).subscribe(function() {
+  console.log(1);
+});
+```
+
+```
+1
+1
+1
+```
+
+```js
+// The above example is equal to the following.
+(function() {
+  var stream = new kamo.Stream();
+  window.setInterval(
+    function() {
+      stream.publish();
+    },
+    1000
+  );
+  stream.subscribe(function() {
+    console.log(1);
   });
 })();
 ```
