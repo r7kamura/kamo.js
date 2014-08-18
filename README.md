@@ -317,7 +317,7 @@ window.setInterval(
 ```
 
 ### #debounce(Integer) -> Stream
-Like `throttle`, but so that event is only published after the given quoted period.
+Like `throttle`, but so that event is only published after the given quiet period.
 
 ```
 a                   : --1---1---1---1---1---1-->
