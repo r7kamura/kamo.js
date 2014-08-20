@@ -86,4 +86,18 @@ describe('kamo.Stream', function () {
       assert.equal(spy.args[2], 6);
     });
   });
+
+  describe('#filter', function () {
+    it('creates a new Stream that filters messages by given function', function () {
+      var spy = sinon.spy();
+      var stream = new kamo.Stream();
+      stream.filter(function (message) {
+        return message % 2 == 1;
+      }).subscribe(spy);
+      stream.publish(1);
+      stream.publish(2);
+      stream.publish(3);
+      assert(spy.calledTwice);
+    });
+  });
 });

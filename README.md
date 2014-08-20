@@ -170,7 +170,7 @@ a.publish(3);
 ```
 
 ### #filter(function(Any) -> Boolean) -> Stream
-Creates a new Stream that filters values by given function.
+Creates a new Stream that filters messages by given function.
 
 ```
 a           : --1--2--3-->
