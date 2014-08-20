@@ -209,4 +209,29 @@ describe('kamo.Stream', function () {
       assert.deepEqual(spy.args, [[1], [3]]);
     });
   });
+
+  describe('#debounce', function () {
+    var clock;
+
+    before(function() {
+      clock = sinon.useFakeTimers();
+    });
+
+    after(function () {
+      clock.restore();
+    });
+
+    it('throttles but so that only published after the given quiet period', function () {
+      var spy = sinon.spy();
+      var stream = new kamo.Stream();
+      stream.debounce(1000).subscribe(spy);
+      stream.publish(1);
+      clock.tick(500);
+      stream.publish(2);
+      clock.tick(1000);
+      stream.publish(3);
+      clock.tick(1000);
+      assert.deepEqual(spy.args, [[2], [3]]);
+    });
+  });
 });
