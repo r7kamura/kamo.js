@@ -317,5 +317,5 @@ make lint
 make
 
 # Generate API docs to STDOUT
-make doc
+make doc --silent
 ```
