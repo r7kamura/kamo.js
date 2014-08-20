@@ -372,7 +372,7 @@
       return flattenStream;
     };
 
-    // ### bufferWithCount(Intger) -> Stream
+    // ### #bufferWithCount(Intger) -> Stream
     // Buffers messages with given count.
     //
     // ```
@@ -398,7 +398,7 @@
     };
 
 
-    // ### throttleWithCount(Intger) -> Stream
+    // ### #throttleWithCount(Intger) -> Stream
     // Throttles messages with given count.
     //
     // ```
@@ -426,7 +426,7 @@
       });
     };
 
-    // ### windowWithCount(Intger) -> Stream
+    // ### #windowWithCount(Intger) -> Stream
     // Slides a window of given length.
     //
     // ```

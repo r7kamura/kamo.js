@@ -268,7 +268,7 @@ a.publish(1);
 a.publish(2);
 ```
 
-### bufferWithCount(Intger) -> Stream
+### #bufferWithCount(Intger) -> Stream
 Buffers messages with given count.
 
 ```
@@ -289,7 +289,7 @@ a.publish(4);
 a.publish(5);
 ```
 
-### throttleWithCount(Intger) -> Stream
+### #throttleWithCount(Intger) -> Stream
 Throttles messages with given count.
 
 ```
@@ -310,7 +310,7 @@ a.publish(4);
 a.publish(5);
 ```
 
-### windowWithCount(Intger) -> Stream
+### #windowWithCount(Intger) -> Stream
 Slides a window of given length.
 
 ```
