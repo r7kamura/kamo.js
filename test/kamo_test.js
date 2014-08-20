@@ -7,9 +7,9 @@ describe('kamo.Stream', function () {
     it('creates a new Stream from an object and its setter', function () {
       var spy = sinon.spy();
       var object = {};
-      kamo.Stream.fromEventHandlerSetter(object, 'onKeyup').subscribe(spy);
-      object.onKeyup('dummy key event');
-      assert(spy.called);
+      kamo.Stream.fromEventHandlerSetter(object, 'onClick').subscribe(spy);
+      object.onClick();
+      assert.deepEqual(spy.args, [[undefined]]);
     });
   });
 
@@ -30,7 +30,7 @@ describe('kamo.Stream', function () {
         'argument2'
       ).subscribe(spy);
       object.click();
-      assert(spy.called);
+      assert.deepEqual(spy.args, [[undefined]]);
     });
   });
 
@@ -38,7 +38,7 @@ describe('kamo.Stream', function () {
     it('publishes a message to its subscribers', function () {
       var spy = sinon.spy();
       new kamo.Stream().subscribe(spy).subscribe(spy).publish();
-      assert(spy.calledTwice);
+      assert.deepEqual(spy.args, [[undefined], [undefined]]);
     });
 
     it('returns itself for method chain', function () {
@@ -53,6 +53,7 @@ describe('kamo.Stream', function () {
       var message = 'message';
       new kamo.Stream().subscribe(spy).publish(message);
       assert(spy.calledWith(message));
+      assert.deepEqual(spy.args, [['message']]);
     });
 
     it('returns itself for method chain', function () {
@@ -69,7 +70,7 @@ describe('kamo.Stream', function () {
       stream.merge(anotherStream).subscribe(spy);
       stream.publish();
       anotherStream.publish();
-      assert(spy.calledTwice);
+      assert.deepEqual(spy.args, [[undefined], [undefined]]);
     });
   });
 
@@ -84,6 +85,7 @@ describe('kamo.Stream', function () {
       assert.equal(spy.args[0], 1);
       assert.equal(spy.args[1], 3);
       assert.equal(spy.args[2], 6);
+      assert.deepEqual(spy.args, [[1], [3], [6]]);
     });
   });
 
@@ -100,6 +102,7 @@ describe('kamo.Stream', function () {
       assert(spy.calledTwice);
       assert.equal(spy.args[0], 1);
       assert.equal(spy.args[1], 3);
+      assert.deepEqual(spy.args, [[1], [3]]);
     });
   });
 
@@ -113,9 +116,7 @@ describe('kamo.Stream', function () {
       stream.publish(1);
       stream.publish(2);
       stream.publish(3);
-      assert.equal(spy.args[0], 2);
-      assert.equal(spy.args[1], 4);
-      assert.equal(spy.args[2], 6);
+      assert.deepEqual(spy.args, [[2], [4], [6]]);
     });
   });
 });
