@@ -98,6 +98,8 @@ describe('kamo.Stream', function () {
       stream.publish(2);
       stream.publish(3);
       assert(spy.calledTwice);
+      assert.equal(spy.args[0], 1);
+      assert.equal(spy.args[1], 3);
     });
   });
 
