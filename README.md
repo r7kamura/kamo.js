@@ -303,6 +303,8 @@ a.debounce(1500).subscribe(function (message) {
 ```
 
 ## Development
+`npm` is required for development.
+
 ```sh
 # Install dependent modules for development
 npm install
