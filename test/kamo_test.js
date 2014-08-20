@@ -119,4 +119,36 @@ describe('kamo.Stream', function () {
       assert.deepEqual(spy.args, [[2], [4], [6]]);
     });
   });
+
+  describe('#combine', function () {
+    it('Creates a new Stream that publishes the combination of the latest messages', function () {
+      var spy = sinon.spy();
+      var a = new kamo.Stream();
+      var b = new kamo.Stream();
+      a.combine(b, function(aValue, bValue) {
+        return aValue + bValue;
+      }).subscribe(spy);
+      a.publish(1);
+      b.publish(2);
+      a.publish(3);
+      b.publish(4);
+      assert.deepEqual(spy.args, [[3], [5], [7]]);
+    });
+  });
+
+  describe('#sampledBy', function () {
+    it('Creates a new Stream that only publishes the combination of the latest messages for the given stream', function () {
+      var spy = sinon.spy();
+      var a = new kamo.Stream();
+      var b = new kamo.Stream();
+      a.sampledBy(b, function(aValue, bValue) {
+        return aValue + bValue;
+      }).subscribe(spy);
+      a.publish(1);
+      b.publish(2);
+      a.publish(3);
+      b.publish(4);
+      assert.deepEqual(spy.args, [[3], [7]]);
+    });
+  });
 });
