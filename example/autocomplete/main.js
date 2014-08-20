@@ -3,16 +3,16 @@ jQuery(function($) {
     $('#input'),
     'keyup'
   ).debounce(1000).map(function(event) {
-    return event.target.value;
-  }).filter(function(value) {
-    return value.length >= 3;
-  }).scan([], function(result, value) {
-    return [result[1], value];
-  }).filter(function(value) {
-    return value[0] != value[1];
-  }).map(function(value) {
-    return value[1];
-  }).flatMapLatest(function(value) {
+    return event.target.message;
+  }).filter(function(message) {
+    return message.length >= 3;
+  }).scan([], function(result, message) {
+    return [result[1], message];
+  }).filter(function(message) {
+    return message[0] != message[1];
+  }).map(function(message) {
+    return message[1];
+  }).flatMapLatest(function(message) {
     return kamo.Stream.fromEventHandlerFunction(
       $.ajax({
         url: 'http://en.wikipedia.org/w/api.php',
@@ -20,7 +20,7 @@ jQuery(function($) {
         data: {
           action: 'opensearch',
           format: 'json',
-          search: window.encodeURI(value)
+          search: window.encodeURI(message)
         }
       }),
       'done'
@@ -29,8 +29,8 @@ jQuery(function($) {
     (function($candidates) {
       return function(data) {
         $candidates.empty();
-        $.each(data[1], function(_, value) {
-          $('<li>').append(document.createTextNode(value)).appendTo($candidates);
+        $.each(data[1], function(_, message) {
+          $('<li>').append(document.createTextNode(message)).appendTo($candidates);
         });
       };
     })($('#candidates'))

@@ -12,14 +12,14 @@
     65  // a
   ];
 
-  kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').map(function(value) {
-    return value.keyCode;
-  }).scan([], function(values, value) {
-    values.push(value);
-    return values.slice(-codes.length);
-  }).filter(function(value) {
-    return JSON.stringify(value) == JSON.stringify(codes);
-  }).subscribe(function(value) {
+  kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').map(function(message) {
+    return message.keyCode;
+  }).scan([], function(messages, message) {
+    messages.push(message);
+    return messages.slice(-codes.length);
+  }).filter(function(message) {
+    return JSON.stringify(message) == JSON.stringify(codes);
+  }).subscribe(function(message) {
     alert('Conguraturation!');
   });
 })();

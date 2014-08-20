@@ -77,8 +77,8 @@ describe('kamo.Stream', function () {
     it('creates a new Stream as an accumulator from given seed and function', function () {
       var spy = sinon.spy();
       var stream = new kamo.Stream();
-      stream.scan(0, function (currentValue, newValue) {
-        return currentValue + newValue;
+      stream.scan(0, function (currentMessage, newMessage) {
+        return currentMessage + newMessage;
       }).subscribe(spy);
       stream.publish(1).publish(2).publish(3);
       assert.equal(spy.args[0], 1);
