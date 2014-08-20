@@ -135,7 +135,6 @@
       return accumulatorStream;
     };
 
-    // Creates a new Stream that filters messages by given function.
     // ### #filter(function (Any) -> Boolean) -> Stream
     // Creates a new Stream that filters messages by given function.
     //

@@ -110,7 +110,6 @@ a.publish(1);
 a.publish(2);
 a.publish(3);
 ```
-Creates a new Stream that filters messages by given function.
 ### #filter(function (Any) -> Boolean) -> Stream
 Creates a new Stream that filters messages by given function.
 
