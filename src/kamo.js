@@ -165,7 +165,7 @@
         if (!locked) {
           locked = true;
           throttledStream.publish(message);
-          global.setTimeout(
+          setTimeout(
             function() {
               locked = false;
             },
