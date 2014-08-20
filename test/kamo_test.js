@@ -65,11 +65,11 @@ describe('kamo.Stream', function () {
   describe('#merge', function () {
     it('creates a new Stream by merging 2 Stream', function () {
       var spy = sinon.spy();
-      var stream = new kamo.Stream();
-      var anotherStream = new kamo.Stream();
-      stream.merge(anotherStream).subscribe(spy);
-      stream.publish();
-      anotherStream.publish();
+      var a = new kamo.Stream();
+      var b = new kamo.Stream();
+      a.merge(b).subscribe(spy);
+      a.publish();
+      b.publish();
       assert.deepEqual(spy.args, [[undefined], [undefined]]);
     });
   });
