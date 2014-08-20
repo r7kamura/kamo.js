@@ -1,4 +1,4 @@
-(function() {
+(function(global) {
   // kamo is a namespace for this library.
   var kamo = {};
 
@@ -165,7 +165,7 @@
         if (!locked) {
           locked = true;
           throttledStream.publish(message);
-          setTimeout(
+          global.setTimeout(
             function() {
               locked = false;
             },
@@ -180,7 +180,7 @@
     constructor.prototype.debounce = function(ms) {
       var timeoutId;
       return this.flatMapLatest(function(message) {
-        return constructor.fromEventHandlerFunction(window, 'setTimeout', ms).map(function() {
+        return constructor.fromEventHandlerFunction(global, 'setTimeout', ms).map(function() {
           return message;
         });
       });
@@ -190,8 +190,8 @@
   })();
 
   if (typeof module == 'undefined') {
-    window.kamo = kamo;
+    global.kamo = kamo;
   } else {
     module.exports = kamo;
   }
-})();
+})(this);
