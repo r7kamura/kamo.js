@@ -186,6 +186,48 @@ describe('kamo.Stream', function () {
     });
   });
 
+  describe('#bufferWithCount', function () {
+    it('buffers messages with given count', function () {
+      var spy = sinon.spy();
+      var stream = new kamo.Stream();
+      stream.bufferWithCount(2).subscribe(spy);
+      stream.publish(1);
+      stream.publish(2);
+      stream.publish(3);
+      stream.publish(4);
+      stream.publish(5);
+      assert.deepEqual(spy.args, [[[1, 2]], [[3, 4]]]);
+    });
+  });
+
+  describe('#throttleWithCount', function () {
+    it('throttles messages with given count', function () {
+      var spy = sinon.spy();
+      var stream = new kamo.Stream();
+      stream.throttleWithCount(2).subscribe(spy);
+      stream.publish(1);
+      stream.publish(2);
+      stream.publish(3);
+      stream.publish(4);
+      stream.publish(5);
+      assert.deepEqual(spy.args, [[1], [3], [5]]);
+    });
+  });
+
+  describe('#windowWithCount', function () {
+    it('slides a window of given length', function () {
+      var spy = sinon.spy();
+      var stream = new kamo.Stream();
+      stream.windowWithCount(2).subscribe(spy);
+      stream.publish(1);
+      stream.publish(2);
+      stream.publish(3);
+      stream.publish(4);
+      stream.publish(5);
+      assert.deepEqual(spy.args, [[[1, 2]], [[2, 3]], [[3, 4]], [[4, 5]]]);
+    });
+  });
+
   describe('#throttle', function () {
     var clock;
 

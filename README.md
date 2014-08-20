@@ -14,6 +14,9 @@ A library to control event streams on Functional Reactive Programming model.
  * [#sampledBy](https://github.com/r7kamura/kamo.js#sampledbystream-function-any-any---any---stream)
  * [#flatMap](https://github.com/r7kamura/kamo.js#flatmapfunction-any---stream---stream)
  * [#flatMapLatest](https://github.com/r7kamura/kamo.js#flatmaplatestfunction-any---stream---stream)
+ * [#bufferWithCount](https://github.com/r7kamura/kamo.js#bufferwithcountintger---stream)
+ * [#throttleWithCount](https://github.com/r7kamura/kamo.js#throttlewithcountintger---stream)
+ * [#windowWithCount](https://github.com/r7kamura/kamo.js#windowwithcountintger---stream)
  * [#throttle](https://github.com/r7kamura/kamo.js#throttleinteger---stream)
  * [#debounce](https://github.com/r7kamura/kamo.js#debounceinteger---stream)
 * [Development](https://github.com/r7kamura/kamo.js/#development)
@@ -263,6 +266,69 @@ a.flatMapLatest(function (message) {
 });
 a.publish(1);
 a.publish(2);
+```
+
+### bufferWithCount(Intger) -> Stream
+Buffers messages with given count.
+
+```
+a                    : --1----2----3----4----5-->
+                          `---|     `---|
+a.bufferWithCount(2) : -------[1,2]-----[3,4]--->
+```
+
+```js
+var a = new kamo.Stream();
+a.bufferWithCount(2).subscribe(function (message) {
+  console.log(message);
+});
+a.publish(1);
+a.publish(2);
+a.publish(3);
+a.publish(4);
+a.publish(5);
+```
+
+### throttleWithCount(Intger) -> Stream
+Throttles messages with given count.
+
+```
+a                      : --1--2--3--4--5-->
+                           |     |     |
+a.throttleWithCount(2) : --1-----3-----5-->
+```
+
+```js
+var a = new kamo.Stream();
+a.throttleWithCount(2).subscribe(function (message) {
+  console.log(message);
+});
+a.publish(1);
+a.publish(2);
+a.publish(3);
+a.publish(4);
+a.publish(5);
+```
+
+### windowWithCount(Intger) -> Stream
+Slides a window of given length.
+
+```
+a                    : --1------2------3------4------5------>
+                          `-----|`-----|`-----|`-----|`------
+a.windowWithCount(2) : ---------[1,2]--[2,3]--[3,4]--[4,5]-->
+```
+
+```js
+var a = new kamo.Stream();
+a.bufferWithCount(2).subscribe(function (message) {
+  console.log(message);
+});
+a.publish(1);
+a.publish(2);
+a.publish(3);
+a.publish(4);
+a.publish(5);
 ```
 
 ### #throttle(Integer) -> Stream

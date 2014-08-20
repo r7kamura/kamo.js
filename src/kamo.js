@@ -155,7 +155,6 @@
     // a.publish(2);
     // a.publish(3);
     // ```
-
     Constructor.prototype.filter = function (filter) {
       var filteredStream = new Constructor();
       this.subscribe(function (message) {
@@ -371,6 +370,89 @@
         });
       });
       return flattenStream;
+    };
+
+    // ### bufferWithCount(Intger) -> Stream
+    // Buffers messages with given count.
+    //
+    // ```
+    // a                    : --1----2----3----4----5-->
+    //                           `---|     `---|
+    // a.bufferWithCount(2) : -------[1,2]-----[3,4]--->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // a.bufferWithCount(2).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // a.publish(2);
+    // a.publish(3);
+    // a.publish(4);
+    // a.publish(5);
+    // ```
+    //
+    Constructor.prototype.bufferWithCount = function (count) {
+      return this.windowWithCount(count).throttleWithCount(count);
+    };
+
+
+    // ### throttleWithCount(Intger) -> Stream
+    // Throttles messages with given count.
+    //
+    // ```
+    // a                      : --1--2--3--4--5-->
+    //                            |     |     |
+    // a.throttleWithCount(2) : --1-----3-----5-->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // a.throttleWithCount(2).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // a.publish(2);
+    // a.publish(3);
+    // a.publish(4);
+    // a.publish(5);
+    // ```
+    //
+    Constructor.prototype.throttleWithCount = function (count) {
+      var index = 0;
+      return this.filter(function (message) {
+        return index++ % count === 0;
+      });
+    };
+
+    // ### windowWithCount(Intger) -> Stream
+    // Slides a window of given length.
+    //
+    // ```
+    // a                    : --1------2------3------4------5------>
+    //                           `-----|`-----|`-----|`-----|`------
+    // a.windowWithCount(2) : ---------[1,2]--[2,3]--[3,4]--[4,5]-->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // a.bufferWithCount(2).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // a.publish(2);
+    // a.publish(3);
+    // a.publish(4);
+    // a.publish(5);
+    // ```
+    //
+    Constructor.prototype.windowWithCount = function (count) {
+      return this.scan([], function (buffer, message) {
+        return buffer.concat([message]).slice(-count);
+      }).filter(function (buffer) {
+        return buffer.length == count;
+      });
     };
 
     // ### #throttle(Integer) -> Stream
