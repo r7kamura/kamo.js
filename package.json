@@ -1,0 +1,29 @@
+{
+  "name": "kamo",
+  "version": "0.0.1",
+  "description": "A library to control event streams on Functional Reactive Programming model.",
+  "main": "src/kamo.js",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com/r7kamura/kamo.js"
+  },
+  "keywords": [
+    "frp"
+  ],
+  "author": "Ryo Nakamura",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/r7kamura/kamo.js/issues"
+  },
+  "homepage": "https://github.com/r7kamura/kamo.js",
+  "devDependencies": {
+    "mocha": "1.21.4"
+  }
+}

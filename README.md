@@ -406,3 +406,17 @@ a.debounce(1500).subscribe(function(value) {
 ## Examples
 * [autocomplete](example/autocomplete)
 * [konami code](example/konami_code)
+
+## For contributors
+### Preparation
+```
+npm install
+```
+
+### Testing
+```
+make test
+```
+
+### Bugs, Questions, Requests
+https://github.com/r7kamura/kamo.js/issues
