@@ -16,6 +16,10 @@ A library to control event streams on Functional Reactive Programming model.
 `--src     : Source files written in JavaScript (kamo.js is located here)
 ```
 
+## Examples
+* [autocomplete](example/autocomplete)
+* [konami code](example/konami_code)
+
 ## API
 * [kamo.Stream](https://github.com/r7kamura/kamo.js#new-kamostream)
  * [.fromEventHandlerSetter](https://github.com/r7kamura/kamo.js#fromeventhandlersetterobject-string---stream)
@@ -403,20 +407,19 @@ a.debounce(1500).subscribe(function(value) {
 1
 ```
 
-## Examples
-* [autocomplete](example/autocomplete)
-* [konami code](example/konami_code)
-
 ## For contributors
+Tips for development.
+
 ### Preparation
+Install some dependent node modules for development.
+
 ```
 npm install
 ```
 
 ### Testing
+Run tests.
+
 ```
 make test
 ```
-
-### Bugs, Questions, Requests
-https://github.com/r7kamura/kamo.js/issues
