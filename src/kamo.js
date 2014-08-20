@@ -67,7 +67,6 @@
 
     // ### #subscribe(function (Any)) -> Stream
     // Registers a given callback function that will be called on each publish message.
-    // subscription must be a Function.
     //
     Constructor.prototype.subscribe = function (subscription) {
       this.subscriptions.push(subscription);
@@ -287,8 +286,7 @@
     };
 
     // ### #flatMap(function (Any) -> Stream) -> Stream
-    // Creates a new Stream for each message in the soruce stream, using the given map.
-    // The events from all created stream are merged into the result stream.
+    // Creates new Streams for each message in the soruce stream, then flattens it.
     //
     // ```
     // a            : --1---2--------------->
@@ -330,9 +328,7 @@
     };
 
     // ### #flatMapLatest(function (Any) -> Stream) -> Stream
-    // Like `flatMap`, creates new streams for each source event.
-    // Instead of merging all created streams, it switches between them so that
-    // when a new stream is created, the earlier-created stream is no longer listened to.
+    // Like `flatMap`, but publishes messages only from the latest stream.
     //
     // ```
     // a                  : --1---2--------------->
