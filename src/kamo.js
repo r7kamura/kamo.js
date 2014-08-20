@@ -180,7 +180,8 @@
     constructor.prototype.debounce = function(ms) {
       var timeoutId;
       return this.flatMapLatest(function(message) {
-        return constructor.fromEventHandlerFunction(global, 'setTimeout', ms).map(function() {
+        var timer = { setTimeout: setTimeout };
+        return constructor.fromEventHandlerFunction(timer, 'setTimeout', ms).map(function() {
           return message;
         });
       });
