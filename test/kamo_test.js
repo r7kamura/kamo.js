@@ -100,4 +100,20 @@ describe('kamo.Stream', function () {
       assert(spy.calledTwice);
     });
   });
+
+  describe('#map', function () {
+    it('creates a new Stream that publishes application results of given function', function () {
+      var spy = sinon.spy();
+      var stream = new kamo.Stream();
+      stream.map(function (message) {
+        return message * 2;
+      }).subscribe(spy);
+      stream.publish(1);
+      stream.publish(2);
+      stream.publish(3);
+      assert.equal(spy.args[0], 2);
+      assert.equal(spy.args[1], 4);
+      assert.equal(spy.args[2], 6);
+    });
+  });
 });
