@@ -151,4 +151,20 @@ describe('kamo.Stream', function () {
       assert.deepEqual(spy.args, [[3], [7]]);
     });
   });
+
+  describe('#flatMap', function () {
+    it('creates a new Stream for each source in the source Stream, flatten into one Stream', function () {
+      var spy = sinon.spy();
+      var stream = new kamo.Stream();
+      var innerStream = new kamo.Stream();
+      stream.flatMap(function (message) {
+        return innerStream;
+      }).subscribe(spy);
+      stream.publish();
+      stream.publish();
+      innerStream.publish(1);
+      innerStream.publish(2);
+      assert.deepEqual(spy.args, [[1], [1], [2], [2]]);
+    });
+  });
 });
