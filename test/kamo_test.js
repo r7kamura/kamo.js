@@ -72,4 +72,18 @@ describe('kamo.Stream', function () {
       assert(spy.calledTwice);
     });
   });
+
+  describe('#scan', function () {
+    it('creates a new Stream as an accumulator from given seed and function', function () {
+      var spy = sinon.spy();
+      var stream = new kamo.Stream();
+      stream.scan(0, function (currentValue, newValue) {
+        return currentValue + newValue;
+      }).subscribe(spy);
+      stream.publish(1).publish(2).publish(3);
+      assert.equal(spy.args[0], 1);
+      assert.equal(spy.args[1], 3);
+      assert.equal(spy.args[2], 6);
+    });
+  });
 });
