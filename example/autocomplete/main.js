@@ -3,7 +3,7 @@ jQuery(function($) {
     $('#input'),
     'keyup'
   ).debounce(1000).map(function(event) {
-    return event.target.message;
+    return event.target.value;
   }).filter(function(message) {
     return message.length >= 3;
   }).scan([], function(result, message) {
