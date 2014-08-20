@@ -13,7 +13,8 @@ A library to control event streams on Functional Reactive Programming model.
 ```
 |--example : Example projects
 |--image   : Image files for README
-`--src     : Source files written in JavaScript (kamo.js is located here)
+|--src     : Source files written in JavaScript (kamo.js is located here)
+`--test    : Test files
 ```
 
 ## Examples
