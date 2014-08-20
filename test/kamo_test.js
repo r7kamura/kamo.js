@@ -156,15 +156,33 @@ describe('kamo.Stream', function () {
     it('creates a new Stream for each source in the source Stream, flatten into one Stream', function () {
       var spy = sinon.spy();
       var stream = new kamo.Stream();
-      var innerStream = new kamo.Stream();
+      var innerStreams = [new kamo.Stream(), new kamo.Stream()];
+      var index = 0;
       stream.flatMap(function (message) {
-        return innerStream;
+        return innerStreams[index++];
       }).subscribe(spy);
       stream.publish();
       stream.publish();
-      innerStream.publish(1);
-      innerStream.publish(2);
-      assert.deepEqual(spy.args, [[1], [1], [2], [2]]);
+      innerStreams[0].publish(0);
+      innerStreams[1].publish(1);
+      assert.deepEqual(spy.args, [[0], [1]]);
+    });
+  });
+
+  describe('#flatMapLatest', function () {
+    it('creates a new Stream for each source in the source Stream, but always switches to the latest stream', function () {
+      var spy = sinon.spy();
+      var stream = new kamo.Stream();
+      var innerStreams = [new kamo.Stream(), new kamo.Stream()];
+      var index = 0;
+      stream.flatMapLatest(function (message) {
+        return innerStreams[index++];
+      }).subscribe(spy);
+      stream.publish();
+      stream.publish();
+      innerStreams[0].publish(0);
+      innerStreams[1].publish(1);
+      assert.deepEqual(spy.args, [[1]]);
     });
   });
 });
