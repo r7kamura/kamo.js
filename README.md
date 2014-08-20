@@ -1,29 +1,9 @@
 # kamo.js
 A library to control event streams on Functional Reactive Programming model.
 
-* [Files](https://github.com/r7kamura/kamo.js#files)
+* [Install](https://github.com/r7kamura/kamo.js#install)
 * [API](https://github.com/r7kamura/kamo.js#api)
-* [Examples](https://github.com/r7kamura/kamo.js#examples)
-* [Development](https://github.com/r7kamura/kamo.js/#development)
-
-![](image/kamo.jpg)
-
-(Photo from the [Kamo River](http://en.wikipedia.org/wiki/Kamo_River) in Kyoto Prefecture, Japan)
-
-## Files
-```
-|--example : Example projects
-|--image   : Image files for README
-|--src     : Source files written in JavaScript (kamo.js is located here)
-`--test    : Test files
-```
-
-## Examples
-* [autocomplete](example/autocomplete)
-* [konami code](example/konami_code)
-
-## API
-* [kamo.Stream](https://github.com/r7kamura/kamo.js#new-kamostream)
+ * [new kamo.Stream()](https://github.com/r7kamura/kamo.js#new-kamostream)
  * [.fromEventHandlerSetter](https://github.com/r7kamura/kamo.js#fromeventhandlersetterobject-string---stream)
  * [.fromEventHandlerFunction](https://github.com/r7kamura/kamo.js#fromeventhandlerfunctionobject-string-any---stream)
  * [#merge](https://github.com/r7kamura/kamo.js#mergestream---stream)
@@ -36,8 +16,23 @@ A library to control event streams on Functional Reactive Programming model.
  * [#flatMapLatest](https://github.com/r7kamura/kamo.js#flatmaplatestfunctionany---stream---stream)
  * [#throttle](https://github.com/r7kamura/kamo.js#throttleinteger---stream)
  * [#debounce](https://github.com/r7kamura/kamo.js#debounceinteger---stream)
+* [Development](https://github.com/r7kamura/kamo.js/#development)
 
-### new kamo.Stream()
+## Install
+As an npm package:
+
+```
+npm install r7kamura/kamo.js
+```
+
+As a bower package:
+
+```
+bower install r7kamura/kamo.js
+```
+
+## API
+### new kamo.Stream() -> Stream
 kamo.Stream is a class for composable mediator, basically for Pub/Sub messaging model.
 
 ```js
@@ -50,12 +45,6 @@ stream.publish(2);
 stream.publish(3);
 ```
 
-```
-1
-2
-3
-```
-
 ### .fromEventHandlerSetter(Object, String) -> Stream
 Creates a new Stream from an event handler setter of given object.
 
@@ -65,55 +54,13 @@ kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').subscribe(function (event)
 });
 ```
 
-```
-40
-40
-38
-38
-```
-
-```js
-// The above example is equal to the following.
-(function () {
-  var stream = new kamo.Stream();
-  window.onkeyup = function (event) {
-    stream.publish(event);
-  };
-  stream.subscribe(function (event) {
-    console.log(event.keyCode);
-  });
-})();
-```
-
-### .fromEventHandlerFunction(Object, String, Any...]) -> Stream
+### .fromEventHandlerFunction(Object, String, Any...) -> Stream
 Creates a new Stream from an event handler function of given object.
 
 ```js
 kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).subscribe(function () {
   console.log(1);
 });
-```
-
-```
-1
-1
-1
-```
-
-```js
-// The above example is equal to the following.
-(function () {
-  var stream = new kamo.Stream();
-  window.setInterval(
-    function () {
-      stream.publish();
-    },
-    1000
-  );
-  stream.subscribe(function () {
-    console.log(1);
-  });
-})();
 ```
 
 ### #merge(Stream) -> Stream
@@ -137,11 +84,6 @@ a.publish(1);
 b.publish(2);
 ```
 
-```
-1
-2
-```
-
 ### #scan(Any, function (Any, Any) -> Any) -> Stream
 Creates a new Stream as an accumulator from given seed and function.
 
@@ -161,12 +103,6 @@ a.scan(0, function (currentMessage, newMessage) {
 a.publish(1);
 a.publish(2);
 a.publish(3);
-```
-
-```
-1
-3
-6
 ```
 
 ### #filter(function (Any) -> Boolean) -> Stream
@@ -190,11 +126,6 @@ a.publish(2);
 a.publish(3);
 ```
 
-```
-1
-3
-```
-
 ### #map(function (Any) -> Any) -> Stream
 Creates a new Stream that publishes applicaiton results of given function.
 
@@ -214,12 +145,6 @@ a.map(function (message) {
 a.publish(1);
 a.publish(2);
 a.publish(3);
-```
-
-```
-2
-4
-6
 ```
 
 ### #combine(Stream, function (Any, Any) -> Any) -> Stream
@@ -247,12 +172,6 @@ a.publish(3);
 b.publish(4);
 ```
 
-```
-3
-5
-7
-```
-
 ### #sampledBy(Stream, function (Any, Any) -> Any) -> Stream
 Like `combine`, but only publishes messages when any messages are published from given Stream.
 
@@ -276,11 +195,6 @@ a.publish(1);
 b.publish(2);
 a.publish(3);
 b.publish(4);
-```
-
-```
-3
-7
 ```
 
 ### #flatMap(function (Any) -> Stream) -> Stream
@@ -314,13 +228,6 @@ a.flatMap(function (message) {
 });
 a.publish(1);
 a.publish(2);
-```
-
-```
-2
-3
-4
-6
 ```
 
 ### #flatMapLatest(function (Any) -> Stream) -> Stream
@@ -357,11 +264,6 @@ a.publish(1);
 a.publish(2);
 ```
 
-```
-4
-6
-```
-
 ### #throttle(Integer) -> Stream
 Throttles its stream by given amount of milliseconds.
 
@@ -378,12 +280,6 @@ var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(fu
 a.throttle(1500).subscribe(function (message) {
   console.log(message);
 });
-```
-
-```
-1
-1
-1
 ```
 
 ### #debounce(Integer) -> Stream
@@ -404,31 +300,27 @@ a.debounce(1500).subscribe(function (message) {
 });
 ```
 
-```
-1
-1
-```
-
 ## Development
-Tips for development.
-
-### Preparation
-Install some dependent node modules for development.
+Install dependent modules for development:
 
 ```
 npm install
 ```
 
-### Testing
-Run tests.
+Run tests:
 
 ```
 make test
 ```
 
-### Lint
-Detect errors and potential problems.
+Run lint checker:
 
 ```
 make lint
+```
+
+Run `test` and `lint`:
+
+```
+make
 ```
