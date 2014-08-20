@@ -1,18 +1,18 @@
-jQuery(function($) {
+jQuery(function ($) {
   kamo.Stream.fromEventHandlerFunction(
     $('#input'),
     'keyup'
-  ).debounce(1000).map(function(event) {
+  ).debounce(1000).map(function (event) {
     return event.target.value;
-  }).filter(function(message) {
+  }).filter(function (message) {
     return message.length >= 3;
-  }).scan([], function(result, message) {
+  }).scan([], function (result, message) {
     return [result[1], message];
-  }).filter(function(message) {
+  }).filter(function (message) {
     return message[0] != message[1];
-  }).map(function(message) {
+  }).map(function (message) {
     return message[1];
-  }).flatMapLatest(function(message) {
+  }).flatMapLatest(function (message) {
     return kamo.Stream.fromEventHandlerFunction(
       $.ajax({
         url: 'http://en.wikipedia.org/w/api.php',
@@ -26,10 +26,10 @@ jQuery(function($) {
       'done'
     );
   }).subscribe(
-    (function($candidates) {
-      return function(data) {
+    (function ($candidates) {
+      return function (data) {
         $candidates.empty();
-        $.each(data[1], function(_, message) {
+        $.each(data[1], function (_, message) {
           $('<li>').append(document.createTextNode(message)).appendTo($candidates);
         });
       };

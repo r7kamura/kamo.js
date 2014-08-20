@@ -42,7 +42,7 @@ kamo.Stream is a class for composable mediator, basically for Pub/Sub messaging 
 
 ```js
 var stream = new kamo.Stream();
-stream.subscribe(function(message) {
+stream.subscribe(function (message) {
   console.log(message);
 });
 stream.publish(1);
@@ -60,7 +60,7 @@ stream.publish(3);
 Creates a new Stream from an event handler setter of given object.
 
 ```js
-kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').subscribe(function(event) {
+kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').subscribe(function (event) {
   console.log(event.keyCode);
 });
 ```
@@ -74,12 +74,12 @@ kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').subscribe(function(event) 
 
 ```js
 // The above example is equal to the following.
-(function() {
+(function () {
   var stream = new kamo.Stream();
-  window.onkeyup = function(event) {
+  window.onkeyup = function (event) {
     stream.publish(event);
   };
-  stream.subscribe(function(event) {
+  stream.subscribe(function (event) {
     console.log(event.keyCode);
   });
 })();
@@ -89,7 +89,7 @@ kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').subscribe(function(event) 
 Creates a new Stream from an event handler function of given object.
 
 ```js
-kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).subscribe(function() {
+kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).subscribe(function () {
   console.log(1);
 });
 ```
@@ -102,15 +102,15 @@ kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).subscribe(func
 
 ```js
 // The above example is equal to the following.
-(function() {
+(function () {
   var stream = new kamo.Stream();
   window.setInterval(
-    function() {
+    function () {
       stream.publish();
     },
     1000
   );
-  stream.subscribe(function() {
+  stream.subscribe(function () {
     console.log(1);
   });
 })();
@@ -130,7 +130,7 @@ a.merge(b) : --1--2-->
 ```js
 var a = new kamo.Stream();
 var b = new kamo.Stream();
-a.merge(b).subscribe(function(message) {
+a.merge(b).subscribe(function (message) {
   console.log(message);
 });
 a.publish(1);
@@ -142,7 +142,7 @@ b.publish(2);
 2
 ```
 
-### #scan(Any, function(Any, Any) -> Any) -> Stream
+### #scan(Any, function (Any, Any) -> Any) -> Stream
 Creates a new Stream as an accumulator from given seed and function.
 
 ```
@@ -153,9 +153,9 @@ a.scan(0, plus) : --1--3--6-->
 
 ```js
 var a = new kamo.Stream();
-a.scan(0, function(currentMessage, newMessage) {
+a.scan(0, function (currentMessage, newMessage) {
   return currentMessage + newMessage;
-}).subscribe(function(message) {
+}).subscribe(function (message) {
   console.log(message);
 });
 a.publish(1);
@@ -169,7 +169,7 @@ a.publish(3);
 6
 ```
 
-### #filter(function(Any) -> Boolean) -> Stream
+### #filter(function (Any) -> Boolean) -> Stream
 Creates a new Stream that filters messages by given function.
 
 ```
@@ -180,9 +180,9 @@ a.filter(f) : --1-----3-->
 
 ```js
 var a = new kamo.Stream();
-a.filter(function(message) {
+a.filter(function (message) {
   return message % 2 == 1;
-}).subscribe(function(message) {
+}).subscribe(function (message) {
   console.log(message);
 });
 a.publish(1);
@@ -195,7 +195,7 @@ a.publish(3);
 3
 ```
 
-### #map(function(Any) -> Any) -> Stream
+### #map(function (Any) -> Any) -> Stream
 Creates a new Stream that publishes applicaiton results of given function.
 
 ```
@@ -206,9 +206,9 @@ a.map(f) : --2--4--6-->
 
 ```js
 var a = new kamo.Stream();
-a.map(function(message) {
+a.map(function (message) {
   return message * 2;
-}).subscribe(function(message) {
+}).subscribe(function (message) {
   console.log(message);
 });
 a.publish(1);
@@ -222,7 +222,7 @@ a.publish(3);
 6
 ```
 
-### #combine(Stream, function(Any, Any) -> Any) -> Stream
+### #combine(Stream, function (Any, Any) -> Any) -> Stream
 Creates a new Stream that publishes the combination of the latest messages.
 
 ```
@@ -236,9 +236,9 @@ a.combine(b, f) : -----3--5--7-->
 ```js
 var a = new kamo.Stream();
 var b = new kamo.Stream();
-a.combine(b, function(aMessage, bMessage) {
+a.combine(b, function (aMessage, bMessage) {
   return aMessage + bMessage;
-}).subscribe(function(message) {
+}).subscribe(function (message) {
   console.log(message);
 });
 a.publish(1);
@@ -253,7 +253,7 @@ b.publish(4);
 7
 ```
 
-### #sampledBy(Stream, function(Any, Any) -> Any) -> Stream
+### #sampledBy(Stream, function (Any, Any) -> Any) -> Stream
 Like `combine`, but only publishes messages when any messages are published from given Stream.
 
 ```
@@ -267,9 +267,9 @@ a.sampledBy(b, f) : -----3-----7-->
 ```js
 var a = new kamo.Stream();
 var b = new kamo.Stream();
-a.sampledBy(b, function(aMessage, bMessage) {
+a.sampledBy(b, function (aMessage, bMessage) {
   return aMessage + bMessage;
-}).subscribe(function(message) {
+}).subscribe(function (message) {
   console.log(message);
 });
 a.publish(1);
@@ -283,7 +283,7 @@ b.publish(4);
 7
 ```
 
-### #flatMap(function(Any) -> Stream) -> Stream
+### #flatMap(function (Any) -> Stream) -> Stream
 Creates a new Stream for each message in the soruce stream, using the given map.
 The events from all created stream are merged into the result stream.
 
@@ -299,17 +299,17 @@ a.flatMap(f) : ----------2--3--4--6-->
 
 ```js
 var a = new kamo.Stream();
-a.flatMap(function(message) {
+a.flatMap(function (message) {
   var eachStream = new kamo.Stream();
   window.setTimeout(
-    function() {
+    function () {
       eachStream.publish(message * 2);
       eachStream.publish(message * 3);
     },
     1000
   );
   return eachStream;
-}).subscribe(function(message) {
+}).subscribe(function (message) {
   console.log(message);
 });
 a.publish(1);
@@ -323,7 +323,7 @@ a.publish(2);
 6
 ```
 
-### #flatMapLatest(function(Any) -> Stream) -> Stream
+### #flatMapLatest(function (Any) -> Stream) -> Stream
 Like `flatMap`, creates new streams for each source event.
 Instead of merging all created streams, it switches between them so that
 when a new stream is created, the earlier-created stream is no longer listened to.
@@ -340,17 +340,17 @@ a.flatMapLatest(f) : ----------------4--6-->
 
 ```js
 var a = new kamo.Stream();
-a.flatMapLatest(function(message) {
+a.flatMapLatest(function (message) {
   var eachStream = new kamo.Stream();
   window.setTimeout(
-    function() {
+    function () {
       eachStream.publish(message * 2);
       eachStream.publish(message * 3);
     },
     1000
   );
   return eachStream;
-}).subscribe(function(message) {
+}).subscribe(function (message) {
   console.log(message);
 });
 a.publish(1);
@@ -372,10 +372,10 @@ a.throttle(integer) : --1-----1-----1-->
 ```
 
 ```js
-var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(function() {
+var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(function () {
   return 1;
 });
-a.throttle(1500).subscribe(function(message) {
+a.throttle(1500).subscribe(function (message) {
   console.log(message);
 });
 ```
@@ -396,10 +396,10 @@ a.debounce(integer) : -------------1-------1-->
 ```
 
 ```js
-var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(function() {
+var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(function () {
   return 1;
 });
-a.debounce(1500).subscribe(function(message) {
+a.debounce(1500).subscribe(function (message) {
   console.log(message);
 });
 ```

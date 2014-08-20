@@ -1,4 +1,4 @@
-(function() {
+(function () {
   var codes = [
     38, // up
     38, // up
@@ -12,14 +12,14 @@
     65  // a
   ];
 
-  kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').map(function(message) {
+  kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').map(function (message) {
     return message.keyCode;
-  }).scan([], function(messages, message) {
+  }).scan([], function (messages, message) {
     messages.push(message);
     return messages.slice(-codes.length);
-  }).filter(function(message) {
+  }).filter(function (message) {
     return JSON.stringify(message) == JSON.stringify(codes);
-  }).subscribe(function(message) {
+  }).subscribe(function (message) {
     alert('Conguraturation!');
   });
 })();

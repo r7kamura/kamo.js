@@ -58,7 +58,7 @@ describe('kamo.Stream', function () {
 
     it('returns itself for method chain', function () {
       var stream = new kamo.Stream();
-      assert.equal(stream.subscribe(function() {}), stream);
+      assert.equal(stream.subscribe(function () {}), stream);
     });
   });
 
@@ -125,7 +125,7 @@ describe('kamo.Stream', function () {
       var spy = sinon.spy();
       var a = new kamo.Stream();
       var b = new kamo.Stream();
-      a.combine(b, function(aValue, bValue) {
+      a.combine(b, function (aValue, bValue) {
         return aValue + bValue;
       }).subscribe(spy);
       a.publish(1);
@@ -141,7 +141,7 @@ describe('kamo.Stream', function () {
       var spy = sinon.spy();
       var a = new kamo.Stream();
       var b = new kamo.Stream();
-      a.sampledBy(b, function(aValue, bValue) {
+      a.sampledBy(b, function (aValue, bValue) {
         return aValue + bValue;
       }).subscribe(spy);
       a.publish(1);
@@ -189,7 +189,7 @@ describe('kamo.Stream', function () {
   describe('#throttle', function () {
     var clock;
 
-    before(function() {
+    before(function () {
       clock = sinon.useFakeTimers();
     });
 
@@ -213,7 +213,7 @@ describe('kamo.Stream', function () {
   describe('#debounce', function () {
     var clock;
 
-    before(function() {
+    before(function () {
       clock = sinon.useFakeTimers();
     });
 
