@@ -35,24 +35,29 @@ describe('kamo.Stream', function () {
   });
 
   describe('#publish', function () {
-    it('publishes a message to its subscribers in the order defined', function () {
+    it('publishes a message to its subscribers', function () {
       var spy = sinon.spy();
-      var stream = new kamo.Stream();
-      stream.subscribe(spy);
-      stream.subscribe(spy);
-      stream.publish();
+      new kamo.Stream().subscribe(spy).subscribe(spy).publish();
       assert(spy.calledTwice);
+    });
+
+    it('returns itself for method chain', function () {
+      var stream = new kamo.Stream();
+      assert.equal(stream.publish(), stream);
     });
   });
 
   describe('#subscribe', function () {
     it('subscribes a callback called with the published message', function () {
       var spy = sinon.spy();
-      var stream = new kamo.Stream();
       var message = 'message';
-      stream.subscribe(spy);
-      stream.publish(message);
+      new kamo.Stream().subscribe(spy).publish(message);
       assert(spy.calledWith(message));
+    });
+
+    it('returns itself for method chain', function () {
+      var stream = new kamo.Stream();
+      assert.equal(stream.subscribe(function() {}), stream);
     });
   });
 

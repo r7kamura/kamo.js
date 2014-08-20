@@ -33,12 +33,14 @@
       for (var i = 0, length = this.subscriptions.length; i < length; i++) {
         this.subscriptions[i](value);
       }
+      return this;
     };
 
     // Registers a given callback function that will be called on each publish value.
     // subscription must be a Function.
     constructor.prototype.subscribe = function(subscription) {
       this.subscriptions.push(subscription);
+      return this;
     };
 
     // Creates a new Stream by merging 2 Stream.
