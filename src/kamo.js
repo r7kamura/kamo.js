@@ -1,14 +1,33 @@
 (function (global) {
-  // kamo is a namespace for this library.
   var kamo = {};
 
-  // Stream is a class object that represents an event stream.
   kamo.Stream = (function () {
+    // ### new kamo.Stream() -> Stream
+    // kamo.Stream is a class for composable mediator, basically for Pub/Sub messaging model.
+    //
+    // ```js
+    // var stream = new kamo.Stream();
+    // stream.subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // stream.publish(1);
+    // stream.publish(2);
+    // stream.publish(3);
+    // ```
+    //
     var Constructor = function () {
       this.subscriptions = [];
     };
 
-    // Creates a new Stream from an event handler property of given object.
+    // ### .fromEventHandlerSetter(Object, String) -> Stream
+    // Creates a new Stream from an event handler setter of given object.
+    //
+    // ```js
+    // kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').subscribe(function (event) {
+    //   console.log(event.keyCode);
+    // });
+    // ```
+    //
     Constructor.fromEventHandlerSetter = function (object, propertyName) {
       var stream = new Constructor();
       object[propertyName] = function (event) {
@@ -17,7 +36,15 @@
       return stream;
     };
 
+    // ### .fromEventHandlerFunction(Object, String, Any...) -> Stream
     // Creates a new Stream from an event handler function of given object.
+    //
+    // ```js
+    // kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).subscribe(function () {
+    //   console.log(1);
+    // });
+    // ```
+    //
     Constructor.fromEventHandlerFunction = function (object, functionName) {
       var args = Array.prototype.slice.call(arguments, 2);
       var stream = new Constructor();
@@ -28,7 +55,9 @@
       return stream;
     };
 
+    // ### #publish(Any) -> Stream
     // Invokes all registered subscriptions with passing given message.
+    //
     Constructor.prototype.publish = function (message) {
       for (var i = 0, length = this.subscriptions.length; i < length; i++) {
         this.subscriptions[i](message);
@@ -36,14 +65,36 @@
       return this;
     };
 
+    // ### #subscribe(function (Any)) -> Stream
     // Registers a given callback function that will be called on each publish message.
     // subscription must be a Function.
+    //
     Constructor.prototype.subscribe = function (subscription) {
       this.subscriptions.push(subscription);
       return this;
     };
 
+    // ### #merge(Stream) -> Stream
     // Creates a new Stream by merging 2 Stream.
+    //
+    // ```
+    // a          : --1----->
+    //                |
+    // b          : -----2-->
+    //                |  |
+    // a.merge(b) : --1--2-->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // var b = new kamo.Stream();
+    // a.merge(b).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // b.publish(2);
+    // ```
+    //
     Constructor.prototype.merge = function (anotherStream) {
       var mergedStream = new Constructor();
       this.subscribe(function (message) {
@@ -55,7 +106,26 @@
       return mergedStream;
     };
 
+    // ### #scan(Any, function (Any, Any) -> Any) -> Stream
     // Creates a new Stream as an accumulator from given seed and function.
+    //
+    // ```
+    // a               : --1--2--3-->
+    //                     |  |  |
+    // a.scan(0, plus) : --1--3--6-->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // a.scan(0, function (currentMessage, newMessage) {
+    //   return currentMessage + newMessage;
+    // }).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // a.publish(2);
+    // a.publish(3);
+    // ```
     Constructor.prototype.scan = function (seed, accumulator) {
       var accumulatorStream = new Constructor();
       var currentMessage = seed;
@@ -67,6 +137,27 @@
     };
 
     // Creates a new Stream that filters messages by given function.
+    // ### #filter(function (Any) -> Boolean) -> Stream
+    // Creates a new Stream that filters messages by given function.
+    //
+    // ```
+    // a           : --1--2--3-->
+    //                 |     |
+    // a.filter(f) : --1-----3-->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // a.filter(function (message) {
+    //   return message % 2 == 1;
+    // }).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // a.publish(2);
+    // a.publish(3);
+    // ```
+
     Constructor.prototype.filter = function (filter) {
       var filteredStream = new Constructor();
       this.subscribe(function (message) {
@@ -77,7 +168,27 @@
       return filteredStream;
     };
 
+    // ### #map(function (Any) -> Any) -> Stream
     // Creates a new Stream that publishes applicaiton results of given function.
+    //
+    // ```
+    // a        : --1--2--3-->
+    //              |  |  |
+    // a.map(f) : --2--4--6-->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // a.map(function (message) {
+    //   return message * 2;
+    // }).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // a.publish(2);
+    // a.publish(3);
+    // ```
+    //
     Constructor.prototype.map = function (map) {
       var mapStream = new Constructor();
       this.subscribe(function (message) {
@@ -86,7 +197,31 @@
       return mapStream;
     };
 
+    // ### #combine(Stream, function (Any, Any) -> Any) -> Stream
     // Creates a new Stream that publishes the combination of the latest messages.
+    //
+    // ```
+    // a               : --1-----3----->
+    //                     |     |
+    // b               : -----2-----4-->
+    //                     `--|`-|`-|
+    // a.combine(b, f) : -----3--5--7-->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // var b = new kamo.Stream();
+    // a.combine(b, function (aMessage, bMessage) {
+    //   return aMessage + bMessage;
+    // }).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // b.publish(2);
+    // a.publish(3);
+    // b.publish(4);
+    // ```
+    //
     Constructor.prototype.combine = function (anotherStream, combiner) {
       var combinedStream = new Constructor();
       var latestMessageOfThis;
@@ -110,7 +245,31 @@
       return combinedStream;
     };
 
+    // ### #sampledBy(Stream, function (Any, Any) -> Any) -> Stream
     // Like `combine`, but only publishes messages when any messages are published from given Stream.
+    //
+    // ```
+    // a                 : --1-----3----->
+    //                       |     |
+    // b                 : -----2-----4-->
+    //                       `--|  `--|
+    // a.sampledBy(b, f) : -----3-----7-->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // var b = new kamo.Stream();
+    // a.sampledBy(b, function (aMessage, bMessage) {
+    //   return aMessage + bMessage;
+    // }).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // b.publish(2);
+    // a.publish(3);
+    // b.publish(4);
+    // ```
+    //
     Constructor.prototype.sampledBy = function (anotherStream, combiner) {
       var sampledStream = new Constructor();
       var latestMessageOfThis;
@@ -127,8 +286,39 @@
       return sampledStream;
     };
 
+    // ### #flatMap(function (Any) -> Stream) -> Stream
     // Creates a new Stream for each message in the soruce stream, using the given map.
     // The events from all created stream are merged into the result stream.
+    //
+    // ```
+    // a            : --1---2--------------->
+    //                  |   |
+    //                f(1)------2--3-------->
+    //                      |   |  |
+    //                    f(2)--------4--6-->
+    //                          |  |  |  |
+    // a.flatMap(f) : ----------2--3--4--6-->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // a.flatMap(function (message) {
+    //   var eachStream = new kamo.Stream();
+    //   window.setTimeout(
+    //     function () {
+    //       eachStream.publish(message * 2);
+    //       eachStream.publish(message * 3);
+    //     },
+    //     1000
+    //   );
+    //   return eachStream;
+    // }).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // a.publish(2);
+    // ```
+    //
     Constructor.prototype.flatMap = function (streamCreator) {
       var flattenStream = new Constructor();
       this.subscribe(function (message) {
@@ -139,9 +329,40 @@
       return flattenStream;
     };
 
-    // Like `flatMap`, create new streams for each source event.
+    // ### #flatMapLatest(function (Any) -> Stream) -> Stream
+    // Like `flatMap`, creates new streams for each source event.
     // Instead of merging all created streams, it switches between them so that
-    // when a new stream is created, the earlierly created stream is no longer listened to.
+    // when a new stream is created, the earlier-created stream is no longer listened to.
+    //
+    // ```
+    // a                  : --1---2--------------->
+    //                        |   |
+    //                      f(1)------2--3-------->
+    //                            |
+    //                          f(2)--------4--6-->
+    //                                      |  |
+    // a.flatMapLatest(f) : ----------------4--6-->
+    // ```
+    //
+    // ```js
+    // var a = new kamo.Stream();
+    // a.flatMapLatest(function (message) {
+    //   var eachStream = new kamo.Stream();
+    //   window.setTimeout(
+    //     function () {
+    //       eachStream.publish(message * 2);
+    //       eachStream.publish(message * 3);
+    //     },
+    //     1000
+    //   );
+    //   return eachStream;
+    // }).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // a.publish(1);
+    // a.publish(2);
+    // ```
+    //
     Constructor.prototype.flatMapLatest = function (streamCreator) {
       var flattenStream = new Constructor();
       var latestStream;
@@ -157,7 +378,24 @@
       return flattenStream;
     };
 
+    // ### #throttle(Integer) -> Stream
     // Throttles its stream by given amount of milliseconds.
+    //
+    // ```
+    // a                   : --1--1--1--1--1-->
+    //                         |     |     |
+    // a.throttle(integer) : --1-----1-----1-->
+    // ```
+    //
+    // ```js
+    // var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(function () {
+    //   return 1;
+    // });
+    // a.throttle(1500).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // ```
+    //
     Constructor.prototype.throttle = function (ms) {
       var throttledStream = new Constructor();
       var locked = false;
@@ -176,7 +414,24 @@
       return throttledStream;
     };
 
-    // Like `throttle`, but so that event is only published after the given quoted period.
+    // ### #debounce(Integer) -> Stream
+    // Like `throttle`, but so that event is only published after the given quiet period.
+    //
+    // ```
+    // a                   : --1---1-------1--------->
+    //                              `-----. `-----.
+    // a.debounce(integer) : -------------1-------1-->
+    // ```
+    //
+    // ```js
+    // var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(function () {
+    //   return 1;
+    // });
+    // a.debounce(1500).subscribe(function (message) {
+    //   console.log(message);
+    // });
+    // ```
+    //
     Constructor.prototype.debounce = function (ms) {
       var timeoutId;
       return this.flatMapLatest(function (message) {

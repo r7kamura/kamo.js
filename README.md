@@ -63,6 +63,13 @@ kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).subscribe(func
 });
 ```
 
+### #publish(Any) -> Stream
+Invokes all registered subscriptions with passing given message.
+
+### #subscribe(function (Any)) -> Stream
+Registers a given callback function that will be called on each publish message.
+subscription must be a Function.
+
 ### #merge(Stream) -> Stream
 Creates a new Stream by merging 2 Stream.
 
@@ -104,7 +111,7 @@ a.publish(1);
 a.publish(2);
 a.publish(3);
 ```
-
+Creates a new Stream that filters messages by given function.
 ### #filter(function (Any) -> Boolean) -> Stream
 Creates a new Stream that filters messages by given function.
 
@@ -125,7 +132,6 @@ a.publish(1);
 a.publish(2);
 a.publish(3);
 ```
-
 ### #map(function (Any) -> Any) -> Stream
 Creates a new Stream that publishes applicaiton results of given function.
 
@@ -301,26 +307,19 @@ a.debounce(1500).subscribe(function (message) {
 ```
 
 ## Development
-Install dependent modules for development:
-
-```
+```sh
+# Install dependent modules for development
 npm install
-```
 
-Run tests:
-
-```
+# Run tests
 make test
-```
 
-Run lint checker:
-
-```
+# Run lint checker
 make lint
-```
 
-Run `test` and `lint`:
-
-```
+# Run `test` and `lint`
 make
+
+# Generate API docs to STDOUT
+make doc
 ```
