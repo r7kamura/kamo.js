@@ -1,0 +1,14 @@
+{
+  "bitwise": true,
+  "camelcase": true,
+  "curly": true,
+  "indent": 2,
+  "latedef": true,
+  "quotmark": "single",
+  "trailing": true,
+  "undef": true,
+  "predef": [
+    "module",
+    "setTimeout"
+  ]
+}

@@ -425,3 +425,10 @@ Run tests.
 ```
 make test
 ```
+
+### Lint
+Detect errors and potential problems.
+
+```
+make lint
+```
