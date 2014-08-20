@@ -1,5 +1,6 @@
 var kamo = require('../src/kamo');
 var assert = require('assert');
+var sinon = require('sinon');
 
 describe('kamo.Stream', function () {
   beforeEach(function () {
@@ -64,6 +65,17 @@ describe('kamo.Stream', function () {
         done();
       })
       this.stream.publish(publishedMessage);
+    });
+  });
+
+  describe('#merge', function () {
+    it('creates a new Stream by merging 2 Stream', function () {
+      var spy = sinon.spy();
+      var anotherStream = new kamo.Stream();
+      this.stream.merge(anotherStream).subscribe(spy);
+      this.stream.publish();
+      anotherStream.publish();
+      assert(spy.calledTwice);
     });
   });
 });
