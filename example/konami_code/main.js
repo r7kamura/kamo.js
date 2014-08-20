@@ -15,7 +15,6 @@
   kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').map(function (message) {
     return message.keyCode;
   }).windowWithCount(codes.length).filter(function (message) {
-    console.log(message);
     return JSON.stringify(message) == JSON.stringify(codes);
   }).subscribe(function (message) {
     alert('Conguraturation!');
