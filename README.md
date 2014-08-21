@@ -1,26 +1,6 @@
 # kamo.js
 A library to control event streams on Functional Reactive Programming model.
 
-* [Install](https://github.com/r7kamura/kamo.js#install)
-* [API](https://github.com/r7kamura/kamo.js#api)
- * [new kamo.Stream()](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#new-kamostream)
- * [.fromEventHandlerSetter](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#fromeventhandlersetterobject-string---stream)
- * [.fromEventHandlerFunction](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#fromeventhandlerfunction-object-string-any---stream)
- * [#merge](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#mergestream---stream)
- * [#scan](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#scanany-function-any-any---any---stream)
- * [#filter](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#filterfunction-any---boolean---stream)
- * [#map](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#mapfunction-any---any---stream)
- * [#combine](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#combinestream-function-any-any---any---stream)
- * [#sampledBy](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#sampledbystream-function-any-any---any---stream)
- * [#flatMap](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#flatmapfunction-any---stream---stream)
- * [#flatMapLatest](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#flatmaplatestfunction-any---stream---stream)
- * [#bufferWithCount](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#bufferwithcountintger---stream)
- * [#throttleWithCount](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#throttlewithcountintger---stream)
- * [#windowWithCount](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#windowwithcountintger---stream)
- * [#throttle](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#throttleinteger---stream)
- * [#debounce](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#debounceinteger---stream)
-* [Development](https://github.com/r7kamura/kamo.js/#development)
-
 ## Install
 ```
 # As an npm package
@@ -32,6 +12,23 @@ bower install r7kamura/kamo.js
 
 ## API
 See [/docs/stream.md](docs/stream.md)
+
+* [new kamo.Stream()](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#new-kamostream)
+* [.fromEventHandlerSetter](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#fromeventhandlersetterobject-string---stream)
+* [.fromEventHandlerFunction](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#fromeventhandlerfunction-object-string-any---stream)
+* [#merge](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#mergestream---stream)
+* [#scan](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#scanany-function-any-any---any---stream)
+* [#filter](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#filterfunction-any---boolean---stream)
+* [#map](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#mapfunction-any---any---stream)
+* [#combine](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#combinestream-function-any-any---any---stream)
+* [#sampledBy](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#sampledbystream-function-any-any---any---stream)
+* [#flatMap](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#flatmapfunction-any---stream---stream)
+* [#flatMapLatest](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#flatmaplatestfunction-any---stream---stream)
+* [#bufferWithCount](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#bufferwithcountintger---stream)
+* [#throttleWithCount](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#throttlewithcountintger---stream)
+* [#windowWithCount](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#windowwithcountintger---stream)
+* [#throttle](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#throttleinteger---stream)
+* [#debounce](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#debounceinteger---stream)
 
 ## Development
 `npm` is required for development.
