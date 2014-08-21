@@ -2,7 +2,7 @@
 A library to control event streams on Functional Reactive Programming model.
 
 ## Install
-```
+```sh
 # As an npm package
 npm install r7kamura/kamo.js
 
