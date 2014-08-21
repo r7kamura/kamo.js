@@ -50,9 +50,9 @@ make test
 # Run lint checker
 make lint
 
-# Run `test` and `lint`
-make
+# Update docs
+make doc
 
-# Generate API docs to STDOUT
-make doc --silent
+# Run all above tasks
+make
 ```
