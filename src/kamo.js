@@ -116,8 +116,8 @@
     //
     // ```js
     // var a = new kamo.Stream();
-    // a.scan(0, function (currentMessage, newMessage) {
-    //   return currentMessage + newMessage;
+    // a.scan(0, function (previousMessage, newMessage) {
+    //   return previousMessage + newMessage;
     // }).subscribe(function (message) {
     //   console.log(message);
     // });
@@ -127,10 +127,10 @@
     // ```
     Constructor.prototype.scan = function (seed, accumulator) {
       var accumulatorStream = new Constructor();
-      var currentMessage = seed;
+      var previousMessage = seed;
       this.subscribe(function (message) {
-        currentMessage = accumulator(currentMessage, message);
-        accumulatorStream.publish(currentMessage);
+        previousMessage = accumulator(previousMessage, message);
+        accumulatorStream.publish(previousMessage);
       });
       return accumulatorStream;
     };

@@ -104,8 +104,8 @@ a.scan(0, plus) : --1--3--6-->
 
 ```js
 var a = new kamo.Stream();
-a.scan(0, function (currentMessage, newMessage) {
-  return currentMessage + newMessage;
+a.scan(0, function (previousMessage, newMessage) {
+  return previousMessage + newMessage;
 }).subscribe(function (message) {
   console.log(message);
 });
