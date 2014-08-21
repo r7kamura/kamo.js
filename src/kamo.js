@@ -437,7 +437,7 @@
     //
     // ```js
     // var a = new kamo.Stream();
-    // a.bufferWithCount(2).subscribe(function (message) {
+    // a.windowWithCount(2).subscribe(function (message) {
     //   console.log(message);
     // });
     // a.publish(1);

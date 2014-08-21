@@ -321,7 +321,7 @@ a.windowWithCount(2) : ---------[1,2]--[2,3]--[3,4]--[4,5]-->
 
 ```js
 var a = new kamo.Stream();
-a.bufferWithCount(2).subscribe(function (message) {
+a.windowWithCount(2).subscribe(function (message) {
   console.log(message);
 });
 a.publish(1);
