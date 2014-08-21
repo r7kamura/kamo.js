@@ -31,11 +31,11 @@ See [/docs/stream.md](https://github.com/r7kamura/kamo.js/blob/master/doc/stream
 * [#debounce](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#debounceinteger---stream)
 
 ## Development
-`npm` is required for development.
+`npm` is pre-required for development.
 
 ```sh
 # Install dependent modules for development
-npm install
+make prepare
 
 # Run tests
 make test
