@@ -11,7 +11,7 @@ bower install r7kamura/kamo.js
 ```
 
 ## API
-See [/docs/stream.md](docs/stream.md)
+See [/docs/stream.md](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#new-kamostream)
 
 * [new kamo.Stream()](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#new-kamostream)
 * [.fromEventHandlerSetter](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#fromeventhandlersetterobject-string---stream)
