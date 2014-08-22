@@ -46,6 +46,9 @@ make lint
 # Update docs
 make doc
 
+# Update distribution
+make build
+
 # Run all above tasks
 make
 ```
