@@ -13,7 +13,10 @@ lint:
 prepare:
 	npm install
 
+release:
+	git push origin master:gh-pages
+
 test:
 	./node_modules/.bin/mocha
 
-.PHONY: build doc lint prepare test
+.PHONY: build doc lint prepare release test
