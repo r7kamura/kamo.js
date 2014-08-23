@@ -10,7 +10,7 @@ npm install r7kamura/kamo.js
 bower install r7kamura/kamo.js
 
 # As a source code for browser
-<script src="https://rawgithub.com/r7kamura/kamo.js/blob/master/dist/kamo.min.js"></script>
+<script src="http://r7kamura.github.io/kamo.js/dist/kamo.min.js"></script>
 ```
 
 ## API
