@@ -23,6 +23,7 @@ See [/docs/stream.md](https://github.com/r7kamura/kamo.js/blob/master/doc/stream
 * [#scan](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#scanany-function-any-any---any---stream)
 * [#filter](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#filterfunction-any---boolean---stream)
 * [#map](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#mapfunction-any---any---stream)
+* [#buffer](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#bufferstream---stream)
 * [#combine](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#combinestream-function-any-any---any---stream)
 * [#sampledBy](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#sampledbystream-function-any-any---any---stream)
 * [#flatMap](https://github.com/r7kamura/kamo.js/blob/master/doc/stream.md#flatmapfunction-any---stream---stream)
