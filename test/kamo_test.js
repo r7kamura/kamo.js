@@ -120,6 +120,23 @@ describe('kamo.Stream', function () {
     });
   });
 
+  describe('#buffer', function () {
+    it('creates a new Stream that buffers and publishes given messages', function () {
+      var spy = sinon.spy();
+      var a = new kamo.Stream();
+      var b = new kamo.Stream();
+      a.buffer(b).subscribe(spy);
+      a.publish(1);
+      a.publish(2);
+      b.publish(0);
+      a.publish(3);
+      a.publish(4);
+      a.publish(5);
+      b.publish(0);
+      assert.deepEqual(spy.args, [[[1, 2]], [[3, 4, 5]]]);
+    });
+  });
+
   describe('#combine', function () {
     it('Creates a new Stream that publishes the combination of the latest messages', function () {
       var spy = sinon.spy();

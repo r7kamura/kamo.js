@@ -117,6 +117,32 @@ a.publish(2);
 a.publish(3);
 ```
 
+### #buffer(Stream) -> Stream
+Creates a new Stream that buffers and publishes given messages.
+
+```
+a           : --1--2---3--4--5----------->
+                 `--`-. `--`--`-.
+b           : --------0---------0-------->
+                      |         |
+a.buffer(b) : --------[1,2]-----[3,4,5]-->
+```
+
+```js
+var a = new kamo.Stream();
+var b = new kamo.Stream();
+a.buffer(b).subscribe(function (message) {
+  console.log(message);
+});
+a.publish(1);
+a.publish(2);
+b.publish(0);
+a.publish(3);
+a.publish(4);
+a.publish(5);
+b.publish(0);
+```
+
 ### #combine(Stream, function (Any, Any) -> Any) -> Stream
 Creates a new Stream that publishes the combination of the latest messages.
 
