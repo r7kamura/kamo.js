@@ -1,6 +1,6 @@
 {
   "name": "kamo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A library to control event streams on Functional Reactive Programming model.",
   "main": "src/kamo.js",
   "directories": {
