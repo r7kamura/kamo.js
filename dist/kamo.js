@@ -540,9 +540,8 @@
     // ```
     //
     // ```js
-    // var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(function () {
-    //   return 1;
-    // });
+    // var a = new kamo.Stream();
+    // setInterval(function () { return a.publish(1); }, 1000);
     // a.debounce(1500).subscribe(function (message) {
     //   console.log(message);
     // });
@@ -551,10 +550,14 @@
     Constructor.prototype.debounce = function (ms) {
       var timeoutId;
       return this.flatMapLatest(function (message) {
-        var timer = { setTimeout: setTimeout };
-        return Constructor.fromEventHandlerFunction(timer, 'setTimeout', ms).map(function () {
-          return message;
-        });
+        var stream = new Constructor();
+        setTimeout(
+          function () {
+            stream.publish(message);
+          },
+          ms
+        );
+        return stream;
       });
     };
 

@@ -348,9 +348,8 @@ a.debounce(integer) : -------------1-------1-->
 ```
 
 ```js
-var a = kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).map(function () {
-  return 1;
-});
+var a = new kamo.Stream();
+setInterval(function () { return a.publish(1); }, 1000);
 a.debounce(1500).subscribe(function (message) {
   console.log(message);
 });
