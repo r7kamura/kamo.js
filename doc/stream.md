@@ -24,7 +24,7 @@ kamo.Stream.fromEventHandlerSetter(window, 'onkeyup').subscribe(function (event)
 Creates a new Stream from an event handler function of given object.
 
 ```js
-kamo.Stream.fromEventHandlerFunction(window, 'setInterval', 1000).subscribe(function () {
+kamo.Stream.fromEventHandlerFunction(element, 'on', 'click').subscribe(function () {
   console.log(1);
 });
 ```
